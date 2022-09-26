@@ -2,10 +2,65 @@
 #include <stdlib.h>
 #include <mpfr.h>
 #include <omp.h>
-#include "../../Headers/Sequential/BBP.h"
+
 
 #define QUOTIENT 0.0625
 
+/************************************************************************************
+ * Miguel Pardo Navarro. 17/07/2021                                                 *
+ * Last version of Bailey Borwein Plouffe formula implementation                    *
+ * It implements a single-threaded method and another that can use multiple threads *
+ *                                                                                  *
+ ************************************************************************************
+ * Bailey Borwein Plouffe formula:                                                  *
+ *                      1        4          2        1       1                      *
+ *    pi = SUMMATORY( ------ [ ------  - ------ - ------ - ------]),  n >=0         *
+ *                     16^n    8n + 1    8n + 4   8n + 5   8n + 6                   *
+ *                                                                                  *
+ * Formula quotients are coded as:                                                  *
+ *              4                 2                 1                 1             *
+ *   quot_a = ------,  quot_b = ------,  quot_c = ------,  quot_d = ------,         *
+ *            8n + 1            8n + 4            8n + 5            8n + 6          *
+ *                                                                                  *
+ *              1                                                                   *
+ *   quot_m = -----                                                                 *
+ *             16^n                                                                 *
+ *                                                                                  *
+ ************************************************************************************
+ * Bailey Borwein Plouffe formula dependencies:                                     *
+ *                                                                                  *
+ *                        1            1                                            *
+ *           dep_m(n) = ----- = ---------------                                     *
+ *                       16^n   dep_m(n-1) * 16                                     *
+ *                                                                                  *
+ ************************************************************************************/
+
+/*
+ * An iteration of Bailey Borwein Plouffe formula
+ */
+void bbp_iteration_mpfr(mpfr_t pi, int n, mpfr_t dep_m, mpfr_t quot_a, mpfr_t quot_b, mpfr_t quot_c, mpfr_t quot_d, mpfr_t aux){
+    mpfr_set_ui(quot_a, 4, MPFR_RNDN);              // quot_a = ( 4 / (8n + 1))
+    mpfr_set_ui(quot_b, 2, MPFR_RNDN);              // quot_b = (-2 / (8n + 4))
+    mpfr_set_ui(quot_c, 1, MPFR_RNDN);              // quot_c = (-1 / (8n + 5))
+    mpfr_set_ui(quot_d, 1, MPFR_RNDN);              // quot_d = (-1 / (8n + 6))
+    mpfr_set_ui(aux, 0, MPFR_RNDN);                 // aux = a + b + c + d  
+
+    int i = n << 3;                     // i = 8n
+    mpfr_div_ui(quot_a, quot_a, i | 1, MPFR_RNDN);  // 4 / (8n + 1)
+    mpfr_div_ui(quot_b, quot_b, i | 4, MPFR_RNDN);  // 2 / (8n + 4)
+    mpfr_div_ui(quot_c, quot_c, i | 5, MPFR_RNDN);  // 1 / (8n + 5)
+    mpfr_div_ui(quot_d, quot_d, i | 6, MPFR_RNDN);  // 1 / (8n + 6)
+
+    // aux = (a - b - c - d)   
+    mpfr_sub(aux, quot_a, quot_b, MPFR_RNDN);
+    mpfr_sub(aux, aux, quot_c, MPFR_RNDN);
+    mpfr_sub(aux, aux, quot_d, MPFR_RNDN);
+
+    // aux = m * aux 
+    mpfr_mul(aux, aux, dep_m, MPFR_RNDN);   
+    
+    mpfr_add(pi, pi, aux, MPFR_RNDN);  
+}
 
 /*
  * Parallel Pi number calculation using the BBP algorithm
@@ -14,7 +69,7 @@
  * so each thread calculates a part of Pi.  
  */
 
-void BBP_algorithm_OMP(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void bbp_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t quotient; 
 
     mpfr_init_set_d(quotient, QUOTIENT, MPFR_RNDN);         // quotient = (1 / 16)   
@@ -43,7 +98,7 @@ void BBP_algorithm_OMP(mpfr_t pi, int num_iterations, int num_threads, int preci
         //First Phase -> Working on a local variable        
         #pragma omp parallel for 
             for(i = block_start; i < block_end; i++){
-                BBP_iteration(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
+                bbp_iteration_mpfr(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
                 // Update dependencies:  
                 mpfr_mul(dep_m, dep_m, quotient, MPFR_RNDN);
             }

@@ -3,7 +3,7 @@
 #include <gmp.h>
 #include <mpfr.h>
 #include <omp.h>
-#include "../../Headers/Sequential/Chudnovsky_v2.h"
+
 
 #define A 13591409
 #define B 545140134
@@ -11,12 +11,52 @@
 #define D 426880
 #define E 10005
 
+/************************************************************************************
+ * Miguel Pardo Navarro. 17/07/2021                                                 *
+ * Chudnovsky formula implementation                                                *
+ * This version does not computes all the factorials                                *
+ * It implements a single-threaded method and another that can use multiple threads *
+ *                                                                                  *
+ ************************************************************************************
+ * Chudnovsky formula:                                                              *
+ *     426880 sqrt(10005)                 (6n)! (545140134n + 13591409)             *
+ *    --------------------  = SUMMATORY( ----------------------------- ),  n >=0    *
+ *            pi                            (n!)^3 (3n)! (-640320)^3n               *
+ *                                                                                  *
+ * Some operands of the formula are coded as:                                       *
+ *      dep_a_dividend = (6n)!                                                      *
+ *      dep_a_divisor  = (n!)^3 (3n)!                                               *
+ *      e              = 426880 sqrt(10005)                                         *
+ *                                                                                  *
+ ************************************************************************************
+ * Chudnovsky formula dependencies:                                                 *
+ *                     (6n)!         (12n + 10)(12n + 6)(12n + 2)                   *
+ *      dep_a(n) = --------------- = ---------------------------- * dep_a(n-1)      *
+ *                 ((n!)^3 (3n)!)              (n + 1)^3                            *
+ *                                                                                  *
+ *      dep_b(n) = (-640320)^3n = (-640320)^3(n-1) * (-640320)^3)                   *
+ *                                                                                  *
+ *      dep_c(n) = (545140134n + 13591409) = dep_c(n - 1) + 545140134               *
+ *                                                                                  *
+ ************************************************************************************/
+
+/*
+ * An iteration of Chudnovsky formula
+ */
+void chudnovsky_iteration_mpfr(mpfr_t pi, int n, mpfr_t dep_a, mpfr_t dep_b, 
+                            mpfr_t dep_c, mpfr_t aux){
+    mpfr_mul(aux, dep_a, dep_c, MPFR_RNDN);
+    mpfr_div(aux, aux, dep_b, MPFR_RNDN);
+    
+    mpfr_add(pi, pi, aux, MPFR_RNDN);
+}
+
 
 /*
  * This method is used by ParallelChudnovskyAlgorithm threads
  * for computing the first value of dep_a
  */
-void init_dep_a(mpfr_t dep_a, int block_start, int precision_bits){
+void init_dep_a_mpfr(mpfr_t dep_a, int block_start, int precision_bits){
     mpz_t factorial_n, dividend, divisor;
     mpfr_t float_dividend, float_divisor;
     mpz_inits(factorial_n, dividend, divisor, NULL);
@@ -44,7 +84,7 @@ void init_dep_a(mpfr_t dep_a, int block_start, int precision_bits){
  * The number of iterations is divided by blocks 
  * so each thread calculates a part of pi.  
  */
-void Chudnovsky_algorithm_v2_OMP(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void chudnovsky_algorithm_v2_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t e, c;
 
     mpfr_inits2(precision_bits, e, c, NULL);
@@ -70,7 +110,7 @@ void Chudnovsky_algorithm_v2_OMP(mpfr_t pi, int num_iterations, int num_threads,
         
         mpfr_inits2(precision_bits, local_pi, dep_a, dep_b, dep_c, dep_a_dividend, dep_a_divisor, aux, NULL);
         mpfr_set_ui(local_pi, 0, MPFR_RNDN);    // private thread pi
-        init_dep_a(dep_a, block_start, precision_bits);
+        init_dep_a_mpfr(dep_a, block_start, precision_bits);
         mpfr_pow_ui(dep_b, c, block_start, MPFR_RNDN);
         mpfr_set_ui(dep_c, B, MPFR_RNDN);
         mpfr_mul_ui(dep_c, dep_c, block_start, MPFR_RNDN);
@@ -80,7 +120,7 @@ void Chudnovsky_algorithm_v2_OMP(mpfr_t pi, int num_iterations, int num_threads,
         //First Phase -> Working on a local variable        
         #pragma omp parallel for 
             for(i = block_start; i < block_end; i++){
-                Chudnovsky_iteration(local_pi, i, dep_a, dep_b, dep_c, aux);
+                chudnovsky_iteration_mpfr(local_pi, i, dep_a, dep_b, dep_c, aux);
                 //Update dep_a:
                 mpfr_set_ui(dep_a_dividend, factor_a + 10, MPFR_RNDN);
                 mpfr_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 6, MPFR_RNDN);

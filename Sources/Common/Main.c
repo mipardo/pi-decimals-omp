@@ -3,6 +3,8 @@
 #include <string.h>
 #include "Print_Title.h"
 #include "../GMP/Pi_Calculator_GMP.h"
+#include "../MPFR/Pi_Calculator_MPFR.h"
+
 
 
 int incorrect_params(char* exec_name){
@@ -33,7 +35,7 @@ int main(int argc, char **argv){
         calculate_pi_gmp(algorithm, precision, num_threads);
     } 
     else if (strcmp(library, "MPFR") == 0) {
-        //calculate_pi_MPFR(algorithm, precision, num_threads);
+        calculate_pi_mpfr(algorithm, precision, num_threads);
     } 
     else 
     {
