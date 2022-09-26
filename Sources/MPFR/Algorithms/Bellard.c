@@ -2,8 +2,40 @@
 #include <stdlib.h>
 #include <mpfr.h>
 #include <omp.h>
-#include "../../Headers/Sequential/Bellard_v1.h"
+#include "Bellard_v1.h"
 
+
+/************************************************************************************
+ * Miguel Pardo Navarro. 17/07/2021                                                 *
+ * Bellard formula implementation                                                   *
+ * It implements a single-threaded method and another that can use multiple threads *
+ *                                                                                  *
+ ************************************************************************************
+ * Bellard formula:                                                                 *
+ *                 (-1)^n     32     1      256     64       4       4       1      *
+ * 2^6 * pi = SUM( ------ [- ---- - ---- + ----- - ----- - ----- - ----- + -----])  *
+ *                 1024^n    4n+1   4n+3   10n+1   10n+3   10n+5   10n+7   10n+9    *
+ *                                                                                  *
+ * Formula quotients are coded as:                                                  *
+ *             32          1           256          64                              *
+ *        a = ----,   b = ----,   c = -----,   d = -----,                           *
+ *            4n+1        4n+3        10n+1        10n+3                            *
+ *                                                                                  *
+ *              4            4            1         (-1)^n                          *
+ *        e = -----,   f = -----,   g = -----,   m = -----,                         *
+ *            10n+5        10n+7        10n+9        2^10n                          *
+ *                                                                                  *
+ ************************************************************************************
+ * Bellard formula dependencies:                                                    *
+ *                           1            1                                         *
+ *              dep_m(n) = ------ = -----------------                               *
+ *                         1024^n   1024^(n-1) * 1024                               *
+ *                                                                                  *
+ *              dep_a(n) = 4n  = dep_a(n-1) + 4                                     *
+ *                                                                                  *
+ *              dep_b(n) = 10n = dep_a(n-1) + 10                                    *
+ *                                                                                  *
+ ************************************************************************************/
 
 /*
  * Parallel Pi number calculation using the Bellard algorithm
@@ -11,7 +43,7 @@
  * The number of iterations is divided cyclically, 
  * so each thread calculates a part of Pi.  
  */
-void Bellard_algorithm_OMP(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void bellard_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t ONE; 
 
     mpfr_init_set_ui(ONE, 1, MPFR_RNDN); 
@@ -44,7 +76,7 @@ void Bellard_algorithm_OMP(mpfr_t pi, int num_iterations, int num_threads, int p
         //First Phase -> Working on a local variable
         #pragma omp parallel for 
             for(i = thread_id; i < num_iterations; i+=num_threads){
-                Bellard_iteration_v1(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                bellard_iteration_v1_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
                 // Update dependencies for next iteration:
                 next_i = i + num_threads;
                 mpfr_mul_2exp(dep_m, ONE, 10 * next_i, MPFR_RNDN);

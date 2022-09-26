@@ -16,8 +16,7 @@ if [ "$#" -ne 0 ]; then
    errors
 fi
 
-error=$(gcc -fopenmp -o PiDecimals.x Sources/Common/*.c Sources/GMP/*.c Sources/GMP/Algorithms/*.c  -lmpfr -lgmp -lm 2>&1 1>/dev/null)
-#error=$(gcc -fopenmp -o parallelOMP.x Sources/Common/*.c Sources/GMP/*.c Sources/MPFR/Bellard*.c Sources/Sequential/Chudnovsky*.c Sources/Common/*.c -lmpfr -lgmp -lm 2>&1 1>/dev/null)
+error=$(gcc -fopenmp -o PiDecimals.x Sources/Common/*.c Sources/GMP/*.c Sources/GMP/Algorithms/*.c Sources/MPFR/*.c Sources/MPFR/Algorithms/*.c -lmpfr -lgmp -lm 2>&1 1>/dev/null)
 
 
 #GIVE FEEDBACK ABOUT COMPILATION

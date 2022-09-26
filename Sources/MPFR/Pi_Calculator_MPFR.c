@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include <mpfr.h>
 #include <time.h>
-#include "../../Headers/OMP/BBP.h"
-#include "../../Headers/OMP/Bellard.h"
-#include "../../Headers/OMP/Bellard_v1.h"
-#include "../../Headers/OMP/Chudnovsky.h"
-#include "../../Headers/Common/Check_decimals.h"
+#include "Check_Decimals_MPFR.h"
+#include "Algorithms/BBP.h"
+#include "Algorithms/Bellard_v1.h"
+#include "Algorithms/Bellard.h"
+#include "Algorithms/Chudnovsky_v2.h"
 
 
 double gettimeofday();
 
-void check_errors_OMP(int precision, int num_iterations, int num_threads){
+void check_errors_mpfr(int precision, int num_iterations, int num_threads){
     if (precision <= 0){
         printf("  Precision should be greater than cero. \n\n");
         exit(-1);
@@ -23,13 +23,13 @@ void check_errors_OMP(int precision, int num_iterations, int num_threads){
     }
 }
 
-void print_running_properties_OMP(int precision, int num_iterations, int num_threads){
+void print_running_properties_mpfr(int precision, int num_iterations, int num_threads){
     printf("  Precision used: %d \n", precision);
     printf("  Iterations done: %d \n", num_iterations);
     printf("  Number of threads: %d\n", num_threads);
 }
 
-void calculate_Pi_OMP(int algorithm, int precision, int num_threads){
+void calculate_pi_mpfr(int algorithm, int precision, int num_threads){
     double execution_time;
     struct timeval t1, t2;
     mpfr_t pi;
@@ -47,34 +47,34 @@ void calculate_Pi_OMP(int algorithm, int precision, int num_threads){
     {
     case 0:
         num_iterations = precision * 0.84;
-        check_errors_OMP(precision, num_iterations, num_threads);
+        check_errors_mpfr(precision, num_iterations, num_threads);
         printf("  Algorithm: BBP \n");
-        print_running_properties_OMP(precision, num_iterations, num_threads);
-        BBP_algorithm_OMP(pi, num_iterations, num_threads, precision_bits);
+        print_running_properties_mpfr(precision, num_iterations, num_threads);
+        bbp_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 1:
         num_iterations = precision / 3;
-        check_errors_OMP(precision, num_iterations, num_threads);
+        check_errors_mpfr(precision, num_iterations, num_threads);
         printf("  Algorithm: Bellard (First version) \n");
-        print_running_properties_OMP(precision, num_iterations, num_threads);
-        Bellard_algorithm_v1_OMP(pi, num_iterations, num_threads, precision_bits);
+        print_running_properties_mpfr(precision, num_iterations, num_threads);
+        bellard_algorithm_v1_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 2:
         num_iterations = precision / 3;
-        check_errors_OMP(precision, num_iterations, num_threads);
+        check_errors_mpfr(precision, num_iterations, num_threads);
         printf("  Algorithm: Bellard (Last version) \n");
-        print_running_properties_OMP(precision, num_iterations, num_threads);
-        Bellard_algorithm_OMP(pi, num_iterations, num_threads, precision_bits);
+        print_running_properties_mpfr(precision, num_iterations, num_threads);
+        bellard_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
     
     case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
-        check_errors_OMP(precision, num_iterations, num_threads);
+        check_errors_mpfr(precision, num_iterations, num_threads);
         printf("  Algorithm: Chudnovsky (Last version) \n");
-        print_running_properties_OMP(precision, num_iterations, num_threads);
-        Chudnovsky_algorithm_v2_OMP(pi, num_iterations, num_threads, precision_bits);
+        print_running_properties_mpfr(precision, num_iterations, num_threads);
+        chudnovsky_algorithm_v2_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
     
     default:
@@ -90,7 +90,7 @@ void calculate_Pi_OMP(int algorithm, int precision, int num_threads){
 
     gettimeofday(&t2, NULL);
     execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e6; 
-    decimals_computed = check_decimals(pi);
+    decimals_computed = check_decimals_mpfr(pi);
     mpfr_clear(pi);
     printf("  Match the first %d decimals \n", decimals_computed);
     printf("  Execution time: %f seconds \n", execution_time);
