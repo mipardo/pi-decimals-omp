@@ -43,7 +43,7 @@
  * factorials[0] = 1, factorials[1] = 1, factorials[2] = 2, factorials[3] = 6, etc.
  * The computation is performed with a single thread. 
  */
-void get_factorials(mpf_t * factorials, int num_factorials){
+void get_factorials_gmp(mpf_t * factorials, int num_factorials){
     int i;
     mpf_t f;
     mpf_init_set_ui(f, 1);
@@ -58,7 +58,7 @@ void get_factorials(mpf_t * factorials, int num_factorials){
 /*
  * This method clears the factorials computed and stored in mpf_t * factorials
  */
-void clear_factorials(mpf_t * factorials, int num_factorials){
+void clear_factorials_gmp(mpf_t * factorials, int num_factorials){
     int i;
     for(i = 0; i <= num_factorials; i++){
         mpf_clear(factorials[i]);
@@ -92,7 +92,7 @@ void chudnovsky_algorithm_v1_gmp(mpf_t pi, int num_iterations, int num_threads){
     
     num_factorials = num_iterations * 6;
     mpf_t factorials[num_factorials + 1];
-    get_factorials(factorials, num_factorials);
+    get_factorials_gmp(factorials, num_factorials);
 
     block_size = (num_iterations + num_threads - 1) / num_threads;
     mpf_init_set_ui(e, E);
@@ -152,6 +152,6 @@ void chudnovsky_algorithm_v1_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_div(pi, e, pi);    
     
     //Clear memory
-    clear_factorials(factorials, num_factorials);
+    clear_factorials_gmp(factorials, num_factorials);
     mpf_clears(c, e, NULL);
 }

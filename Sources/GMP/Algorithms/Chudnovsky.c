@@ -47,7 +47,7 @@
  * This method is used by ParallelChudnovskyAlgorithm threads
  * for computing the first value of dep_a
  */
-void init_dep_a(mpf_t dep_a, int block_start){
+void init_dep_a_gmp(mpf_t dep_a, int block_start){
     mpz_t factorial_n, dividend, divisor;
     mpf_t float_dividend, float_divisor;
     mpz_inits(factorial_n, dividend, divisor, NULL);
@@ -153,7 +153,7 @@ void chudnovsky_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
         
         mpf_init_set_ui(local_pi, 0);    // private thread pi
         mpf_inits(dep_a, dep_b, dep_a_dividend, dep_a_divisor, aux, NULL);
-        init_dep_a(dep_a, block_start);
+        init_dep_a_gmp(dep_a, block_start);
         mpf_pow_ui(dep_b, c, block_start);
         mpf_init_set_ui(dep_c, B);
         mpf_mul_ui(dep_c, dep_c, block_start);

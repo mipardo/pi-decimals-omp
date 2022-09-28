@@ -16,6 +16,7 @@
  * Chudnovsky formula implementation                                                *
  * This version does not computes all the factorials                                *
  * It implements a single-threaded method and another that can use multiple threads *
+ * It uses a block distribution                                                     *
  *                                                                                  *
  ************************************************************************************
  * Chudnovsky formula:                                                              *
@@ -84,7 +85,7 @@ void init_dep_a_mpfr(mpfr_t dep_a, int block_start, int precision_bits){
  * The number of iterations is divided by blocks 
  * so each thread calculates a part of pi.  
  */
-void chudnovsky_algorithm_v2_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void chudnovsky_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t e, c;
 
     mpfr_inits2(precision_bits, e, c, NULL);
