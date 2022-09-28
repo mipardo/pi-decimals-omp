@@ -121,7 +121,7 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads){
     execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e6; 
     decimals_computed = check_decimals_gmp(pi);
     mpf_clear(pi);
-    printf("  Match the first %d decimals. \n", decimals_computed);
+    printf("  Correct decimals: %d. \n", decimals_computed);
     printf("  Execution time: %f seconds. \n", execution_time);
     printf("\n");
 }
