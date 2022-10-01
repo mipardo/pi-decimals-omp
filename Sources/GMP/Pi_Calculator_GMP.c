@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <time.h>
+#include "../Common/Printer.h"
 #include "Check_Decimals_GMP.h"
 #include "Algorithms/BBP_Blocks.h"
 #include "Algorithms/BBP_Cyclic.h"
@@ -9,8 +10,6 @@
 #include "Algorithms/Chudnovsky_V1.h"
 #include "Algorithms/Chudnovsky_V2.h"
 #include "Algorithms/Chudnovsky.h"
-
-
 
 
 double gettimeofday();
@@ -35,18 +34,14 @@ void check_errors_gmp(int precision, int num_iterations, int num_threads, int al
     }
 }
 
-void print_running_properties_gmp(int precision, int num_iterations, int num_threads){
-    printf("  Library used: GMP \n");
-    printf("  Precision used: %d \n", precision);
-    printf("  Number of iterations: %d \n", num_iterations);
-    printf("  Number of threads: %d\n", num_threads);
-}
+
 
 void calculate_pi_gmp(int algorithm, int precision, int num_threads){
     double execution_time;
     struct timeval t1, t2;
     mpf_t pi;
     int num_iterations, decimals_computed;
+    char *algorithm_type;
 
     gettimeofday(&t1, NULL);
 
@@ -59,48 +54,42 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads){
     case 0:
         num_iterations = precision * 0.84;
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        printf("  Algorithm: BBP (Cyclic distribution) \n");
-        print_running_properties_gmp(precision, num_iterations, num_threads);
+        algorithm_type = "BBP (Cyclic distribution)";
         bbp_algorithm_cyclic_gmp(pi, num_iterations, num_threads);
         break;
 
     case 1:
         num_iterations = precision * 0.84;
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        printf("  Algorithm: BBP (Block distribution)\n");
-        print_running_properties_gmp(precision, num_iterations, num_threads);      
+        algorithm_type = "BBP (Block distribution)";
         bbp_algorithm_blocks_gmp(pi, num_iterations, num_threads);
         break;
 
     case 2:
         num_iterations = precision / 3;
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        printf("  Algorithm: Bellard (Cyclic Distribution) \n");
-        print_running_properties_gmp(precision, num_iterations, num_threads);
+        algorithm_type = "Bellard (Cyclic Distribution)";
         bellard_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
     case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        printf("  Algorithm: Chudnovsky (Block Distribution and computing all factorials) \n");
-        print_running_properties_gmp(precision, num_iterations, num_threads);
+        algorithm_type = "Chudnovsky (Block Distribution and computing all factorials)";
         chudnovsky_algorithm_v1_gmp(pi, num_iterations, num_threads);
         break;
 
     case 4:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        printf("  Algorithm: Chudnovsky (Block distribution and using the simplified mathematical expresion) \n");
-        print_running_properties_gmp(precision, num_iterations, num_threads);
+        algorithm_type = "Chudnovsky (Block distribution and using the simplified mathematical expresion)";
         chudnovsky_algorithm_v2_gmp(pi, num_iterations, num_threads);
         break;
 
     case 5:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        printf("  Algorithm: Chudnovsky (Non-proportional block distribution and using the simplified mathematical expresion) \n");
-        print_running_properties_gmp(precision, num_iterations, num_threads);
+        algorithm_type = "Chudnovsky (Non-proportional block distribution and using the simplified mathematical expresion)";
         chudnovsky_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
@@ -120,8 +109,8 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads){
     gettimeofday(&t2, NULL);
     execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e6; 
     decimals_computed = check_decimals_gmp(pi);
+    print_results("GMP", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
+    print_results_csv("GMP", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
     mpf_clear(pi);
-    printf("  Correct decimals: %d. \n", decimals_computed);
-    printf("  Execution time: %f seconds. \n", execution_time);
-    printf("\n");
+
 }

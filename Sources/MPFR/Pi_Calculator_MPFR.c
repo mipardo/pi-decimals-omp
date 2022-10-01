@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <mpfr.h>
 #include <time.h>
+#include "../Common/Printer.h"
 #include "Check_Decimals_MPFR.h"
 #include "Algorithms/BBP.h"
 #include "Algorithms/Bellard.h"
@@ -22,18 +23,12 @@ void check_errors_mpfr(int precision, int num_iterations, int num_threads){
     }
 }
 
-void print_running_properties_mpfr(int precision, int num_iterations, int num_threads){
-    printf("  Library used: MPFR \n");
-    printf("  Precision used: %d \n", precision);
-    printf("  Iterations done: %d \n", num_iterations);
-    printf("  Number of threads: %d\n", num_threads);
-}
-
 void calculate_pi_mpfr(int algorithm, int precision, int num_threads){
     double execution_time;
     struct timeval t1, t2;
     mpfr_t pi;
     int num_iterations, decimals_computed, precision_bits;
+    char *algorithm_type;
 
     precision_bits = 8 * precision;
     
@@ -48,24 +43,21 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads){
     case 0:
         num_iterations = precision * 0.84;
         check_errors_mpfr(precision, num_iterations, num_threads);
-        printf("  Algorithm: BBP (Block distribution) \n");
-        print_running_properties_mpfr(precision, num_iterations, num_threads);
+        algorithm_type = "BBP (Block distribution)";
         bbp_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 1:
         num_iterations = precision / 3;
         check_errors_mpfr(precision, num_iterations, num_threads);
-        printf("  Algorithm: Bellard (Cyclic Distribution) \n");
-        print_running_properties_mpfr(precision, num_iterations, num_threads);
+        algorithm_type = "Bellard (Cyclic Distribution)";
         bellard_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 2:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_mpfr(precision, num_iterations, num_threads);
-        printf("  Algorithm: Chudnovsky (Block distribution and using the simplified mathematical expresion) \n");
-        print_running_properties_mpfr(precision, num_iterations, num_threads);
+        algorithm_type = "Chudnovsky (Block distribution and using the simplified mathematical expresion)";
         chudnovsky_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
     
@@ -82,9 +74,8 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads){
     gettimeofday(&t2, NULL);
     execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e6; 
     decimals_computed = check_decimals_mpfr(pi);
+    print_results("MPFR", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
+    print_results_csv("MPFR", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
     mpfr_clear(pi);
-    printf("  Correct decimals: %d. \n", decimals_computed);
-    printf("  Execution time: %f seconds \n", execution_time);
-    printf("\n");
 }
 

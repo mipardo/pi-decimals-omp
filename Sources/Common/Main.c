@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Print_Title.h"
+#include "Printer.h"
 #include "../GMP/Pi_Calculator_GMP.h"
 #include "../MPFR/Pi_Calculator_MPFR.h"
 
@@ -16,8 +16,6 @@ int incorrect_params(char* exec_name){
 int main(int argc, char **argv){    
 
     print_title();
-    printf("  Parallel OMP version! \n");
-    printf("\n");
 
     //Check the number of parameters are correct
     if(argc != 5){
