@@ -44,7 +44,7 @@ void print_results(char *library, char *algorithm_type, int precision, int num_i
 void print_results_csv(char *library, char *algorithm_type, int precision, int num_iterations, int num_threads, int decimals_computed, double execution_time) {
     char execution_time_string[100];
     replace_decimal_point_by_coma(execution_time, execution_time_string);
-    //printf("library;algorithm_type;precision;num_iterations;num_threads;decimals_computed;execution_time;\n");
-    printf("%s;%s;%d;%d;%d;%d;%s;\n", library, algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time_string);
+    //printf("paradigm_type;library;algorithm_type;precision;num_iterations;num_threads;decimals_computed;execution_time;\n");
+    printf("OMP;%s;%s;%d;%d;%d;%d;%s;\n", library, algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time_string);
 }
 
