@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <time.h>
+#include <stdbool.h>
 #include "../Common/Printer.h"
 #include "Check_Decimals_GMP.h"
 #include "Algorithms/BBP_Blocks.h"
@@ -36,7 +37,7 @@ void check_errors_gmp(int precision, int num_iterations, int num_threads, int al
 
 
 
-void calculate_pi_gmp(int algorithm, int precision, int num_threads){
+void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_in_csv_format){
     double execution_time;
     struct timeval t1, t2;
     mpf_t pi;
@@ -109,8 +110,11 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads){
     gettimeofday(&t2, NULL);
     execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e6; 
     decimals_computed = check_decimals_gmp(pi);
-    print_results("GMP", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
-    print_results_csv("GMP", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
+    if (print_in_csv_format) {
+        print_results_csv("GMP", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
+    } else {
+        print_results("GMP", algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time);
+    }
     mpf_clear(pi);
 
 }

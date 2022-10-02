@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "Printer.h"
 #include "../GMP/Pi_Calculator_GMP.h"
 #include "../MPFR/Pi_Calculator_MPFR.h"
@@ -9,16 +10,23 @@
 
 int incorrect_params(char* exec_name){
     printf("  Number of params are not correct. Try with:\n");
-    printf("    %s library algorithm precision num_threads \n", exec_name);
+    printf("    %s library algorithm precision num_threads [-csv] \n", exec_name);
     printf("\n");
 }
 
 int main(int argc, char **argv){    
 
-    print_title();
-
     //Check the number of parameters are correct
-    if(argc != 5){
+    bool print_in_csv_format; 
+
+    if (argc == 6 && strcmp(argv[5], "-csv") == 0) {
+        print_in_csv_format = true;    
+    } 
+    else if (argc == 5) {
+        print_title();
+        print_in_csv_format = false;
+    }
+    else {
         incorrect_params(argv[0]);
         exit(-1);
     }
@@ -30,10 +38,10 @@ int main(int argc, char **argv){
     int num_threads = atoi(argv[4]);
 
     if (strcmp(library, "GMP") == 0) {
-        calculate_pi_gmp(algorithm, precision, num_threads);
+        calculate_pi_gmp(algorithm, precision, num_threads, print_in_csv_format);
     } 
     else if (strcmp(library, "MPFR") == 0) {
-        calculate_pi_mpfr(algorithm, precision, num_threads);
+        calculate_pi_mpfr(algorithm, precision, num_threads, print_in_csv_format);
     } 
     else 
     {
