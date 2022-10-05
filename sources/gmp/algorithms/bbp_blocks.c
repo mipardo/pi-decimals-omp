@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "BBP_Cyclic.h"
+#include "bbp_cyclic.h"
 
 
 #define QUOTIENT 0.0625

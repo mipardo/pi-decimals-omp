@@ -3,11 +3,11 @@
 #include <mpfr.h>
 #include <time.h>
 #include <stdbool.h>
-#include "../Common/Printer.h"
-#include "Check_Decimals_MPFR.h"
-#include "Algorithms/BBP.h"
-#include "Algorithms/Bellard.h"
-#include "Algorithms/Chudnovsky.h"
+#include "../common/printer.h"
+#include "check_decimals.h"
+#include "algorithms/bbp.h"
+#include "algorithms/bellard.h"
+#include "algorithms/chudnovsky.h"
 
 
 double gettimeofday();

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "Bellard_V1.h"
+#include "bellard_v1.h"
 
 
 /************************************************************************************

@@ -15,9 +15,9 @@ void replace_decimal_point_by_coma(double number, char *result){
 
 void print_title() {
     FILE * file;
-    file = fopen("Resources/piDecimalsTitle.txt", "r");
+    file = fopen("resources/pi_decimals_title.txt", "r");
     if(file == NULL){
-        printf("piDecimalsTitle.txt not found \n");
+        printf("pi_decimals_title.txt not found \n");
         exit(-1);
     } 
 

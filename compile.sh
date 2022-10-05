@@ -11,15 +11,16 @@ errors(){
     exit 1
 }
 
-#CHECK PARAMS
+# CHECK PARAMS
 if [ "$#" -ne 0 ]; then
    errors
 fi
 
-error=$(gcc -fopenmp -o PiDecimals.x Sources/Common/*.c Sources/GMP/*.c Sources/GMP/Algorithms/*.c Sources/MPFR/*.c Sources/MPFR/Algorithms/*.c -lmpfr -lgmp -lm 2>&1 1>/dev/null)
+# COMPILE
+error=$(gcc -fopenmp -o PiDecimals.x sources/common/*.c sources/gmp/*.c sources/gmp/algorithms/*.c sources/mpfr/*.c sources/mpfr/algorithms/*.c -lmpfr -lgmp -lm 2>&1 1>/dev/null)
 
 
-#GIVE FEEDBACK ABOUT COMPILATION
+# GIVE FEEDBACK ABOUT COMPILATION
 if [[ -z "$error" ]]; then
     echo -n "COMPILATION "
     ${GREEN_OUTPUT}

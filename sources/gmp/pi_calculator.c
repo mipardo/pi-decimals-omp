@@ -3,14 +3,14 @@
 #include <gmp.h>
 #include <time.h>
 #include <stdbool.h>
-#include "../Common/Printer.h"
-#include "Check_Decimals_GMP.h"
-#include "Algorithms/BBP_Blocks.h"
-#include "Algorithms/BBP_Cyclic.h"
-#include "Algorithms/Bellard.h"
-#include "Algorithms/Chudnovsky_V1.h"
-#include "Algorithms/Chudnovsky_V2.h"
-#include "Algorithms/Chudnovsky.h"
+#include "../common/printer.h"
+#include "check_decimals.h"
+#include "algorithms/bbp_blocks.h"
+#include "algorithms/bbp_cyclic.h"
+#include "algorithms/bellard.h"
+#include "algorithms/chudnovsky_v1.h"
+#include "algorithms/chudnovsky_v2.h"
+#include "algorithms/chudnovsky.h"
 
 
 double gettimeofday();
@@ -83,14 +83,14 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
     case 4:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        algorithm_type = "Chudnovsky (Block distribution and using the simplified mathematical expresion)";
+        algorithm_type = "Chudnovsky (Block distribution and using the simplified mathematical expression)";
         chudnovsky_algorithm_v2_gmp(pi, num_iterations, num_threads);
         break;
 
     case 5:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
-        algorithm_type = "Chudnovsky (Non-proportional block distribution and using the simplified mathematical expresion)";
+        algorithm_type = "Chudnovsky (Non-proportional block distribution and using the simplified mathematical expression)";
         chudnovsky_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 

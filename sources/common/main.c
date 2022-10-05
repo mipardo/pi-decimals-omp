@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "Printer.h"
-#include "../GMP/Pi_Calculator_GMP.h"
-#include "../MPFR/Pi_Calculator_MPFR.h"
+#include "printer.h"
+#include "../gmp/pi_calculator.h"
+#include "../mpfr/pi_calculator.h"
 
 
 
@@ -35,7 +35,7 @@ int main(int argc, char **argv){
     char *library = argv[1];
     int algorithm = atoi(argv[2]);    
     int precision = atoi(argv[3]);
-    int num_threads = atoi(argv[4]);
+    int num_threads = (atoi(argv[4]) <= 0) ? 1 : atoi(argv[4]);
 
     if (strcmp(library, "GMP") == 0) {
         calculate_pi_gmp(algorithm, precision, num_threads, print_in_csv_format);
