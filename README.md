@@ -1,10 +1,9 @@
 # PiDecimals
-
-#   ____  _ ____            _                 _
-#  |  _ \(_)  _ \  ___  ___(_)_ __ ___   __ _| |___
-#  | |_) | | | | |/ _ \/ __| | '_ ` _ \ / _` | / __|
-#  |  __/| | |_| |  __/ (__| | | | | | | (_| | \__ \
-#  |_|   |_|____/ \___|\___|_|_| |_| |_|\__,_|_|___/
+   ____  _ ____            _                 _
+  |  _ \(_)  _ \  ___  ___(_)_ __ ___   __ _| |___
+  | |_) | | | | |/ _ \/ __| | '_ ` _ \ / _` | / __|
+  |  __/| | |_| |  __/ (__| | | | | | | (_| | \__ \
+  |_|   |_|____/ \___|\___|_|_| |_| |_|\__,_|_|___/
 
 ## Introduction
 
@@ -13,7 +12,7 @@ To perform the operations it is used a floating point precision arithmetic libra
 
 It can be used as a benchmark to compare and test the CPU performance in a single thread way or even with multiple threads. Threads are managed with OpenMP.
 
-<img src="https://user-images.githubusercontent.com/60443339/195342306-1eb14b7d-ce25-41a8-87b5-545011edf172.png" alt="drawing" height="300"/>
+<img src="https://user-images.githubusercontent.com/60443339/195342306-1eb14b7d-ce25-41a8-87b5-545011edf172.png" alt="drawing" height="200"/>
 
 ### Spigot Algorithms
 
@@ -25,7 +24,7 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 * Bellard. The expression is presented as follows:
 
-<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" height="170"/>
+<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" height="150"/>
 
 * Chudnovsky. The expression is shown below:
 
@@ -67,7 +66,7 @@ En example of use could be:
 ```
 And the output could be:
 
-<img src="https://user-images.githubusercontent.com/60443339/195339706-35d6c8d7-a0e1-4732-87dd-57f886090160.png" alt="drawing" height="400"/>
+<img src="https://user-images.githubusercontent.com/60443339/195339706-35d6c8d7-a0e1-4732-87dd-57f886090160.png" alt="drawing" />
 
 
 
