@@ -17,7 +17,7 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 * Bailey-Borwein-Plouffe. The expression is presented below:
 
-<img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" height="80" />
+<img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" height="85" />
 
 * Bellard. The expression is presented as follows:
 
@@ -25,7 +25,7 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 * Chudnovsky. The expression is shown below:
 
-<img src="https://user-images.githubusercontent.com/60443339/195336414-27422fd3-4884-4cf4-a7b8-47bf49f5b67a.png" alt="drawing" height="80" />
+<img src="https://user-images.githubusercontent.com/60443339/195336414-27422fd3-4884-4cf4-a7b8-47bf49f5b67a.png" alt="drawing" height="85" />
 
 ### Multiple Precision Floating Point Libraries
 
