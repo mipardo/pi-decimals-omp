@@ -12,6 +12,8 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms.
 
 * Bailey-Borwein-Plouffe
 
+<img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" width="200"/>
+
 ![image](https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png)
 
 * Bellard
