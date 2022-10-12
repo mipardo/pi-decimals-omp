@@ -7,7 +7,7 @@ It can be used as a benchmark to compare and test the CPU performance in a singl
 
 <img src="https://user-images.githubusercontent.com/60443339/195342306-1eb14b7d-ce25-41a8-87b5-545011edf172.png" alt="drawing" height="100"/>
 
-##### Spigot Algorithms
+#### Spigot Algorithms
 
 Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
@@ -23,7 +23,7 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 <img src="https://user-images.githubusercontent.com/60443339/195336414-27422fd3-4884-4cf4-a7b8-47bf49f5b67a.png" alt="drawing" height="85" />
 
-##### Multiple Precision Floating Point Libraries
+#### Multiple Precision Floating Point Libraries
 
 Currently, PiDecimals allows yoy to compute Pi using two different floating point arithmetic libraries: 
 
