@@ -1,6 +1,6 @@
 # PiDecimals
 
-<img src="https://user-images.githubusercontent.com/60443339/195345025-2f54a691-7918-4a3a-89de-2d488625f4b1.png" alt="drawing" height="150"/>
+<img src="https://user-images.githubusercontent.com/60443339/195345025-2f54a691-7918-4a3a-89de-2d488625f4b1.png" alt="drawing"/>
 
 ## Introduction
 
@@ -17,15 +17,15 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 * Bailey-Borwein-Plouffe. The expression is presented below:
 
-<img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" height="100"/>
+<img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" />
 
 * Bellard. The expression is presented as follows:
 
-<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" height="100"/>
+<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" />
 
 * Chudnovsky. The expression is shown below:
 
-<img src="https://user-images.githubusercontent.com/60443339/195336414-27422fd3-4884-4cf4-a7b8-47bf49f5b67a.png" alt="drawing" height="100"/>
+<img src="https://user-images.githubusercontent.com/60443339/195336414-27422fd3-4884-4cf4-a7b8-47bf49f5b67a.png" alt="drawing" />
 
 ### Multiple Precision Floating Point Libraries
 
