@@ -1,6 +1,6 @@
 # PiDecimals
 
-<img src="https://user-images.githubusercontent.com/60443339/195345025-2f54a691-7918-4a3a-89de-2d488625f4b1.png" alt="drawing" height="200"/>
+<img src="https://user-images.githubusercontent.com/60443339/195345025-2f54a691-7918-4a3a-89de-2d488625f4b1.png" alt="drawing" height="150"/>
 
 ## Introduction
 
@@ -9,7 +9,7 @@ To perform the operations it is used a floating point precision arithmetic libra
 
 It can be used as a benchmark to compare and test the CPU performance in a single thread way or even with multiple threads. Threads are managed with OpenMP.
 
-<img src="https://user-images.githubusercontent.com/60443339/195342306-1eb14b7d-ce25-41a8-87b5-545011edf172.png" alt="drawing" height="200"/>
+<img src="https://user-images.githubusercontent.com/60443339/195342306-1eb14b7d-ce25-41a8-87b5-545011edf172.png" alt="drawing" height="100"/>
 
 ### Spigot Algorithms
 
