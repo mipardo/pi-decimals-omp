@@ -1,10 +1,7 @@
 # PiDecimals
 
-  ____  _ ____            _                 _     
- |  _ \(_)  _ \  ___  ___(_)_ __ ___   __ _| |___ 
- | |_) | | | | |/ _ \/ __| | '_ ` _ \ / _` | / __|
- |  __/| | |_| |  __/ (__| | | | | | | (_| | \__ \
- |_|   |_|____/ \___|\___|_|_| |_| |_|\__,_|_|___/
+<img src="https://user-images.githubusercontent.com/60443339/195343726-ec956e18-6da5-4765-887d-d2babf642658.png" alt="drawing" height="150"/>
+
 
 ## Introduction
 
@@ -25,7 +22,7 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 * Bellard. The expression is presented as follows:
 
-<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" height="150"/>
+<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" height="120"/>
 
 * Chudnovsky. The expression is shown below:
 
