@@ -1,5 +1,7 @@
 # PiDecimals
 
+<img src="https://user-images.githubusercontent.com/60443339/195345025-2f54a691-7918-4a3a-89de-2d488625f4b1.png" alt="drawing" height="200"/>
+
 ## Introduction
 
 This program computes the Pi number using different Spigot algorithms. 
