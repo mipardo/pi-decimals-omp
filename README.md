@@ -12,15 +12,15 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms.
 
 * Bailey-Borwein-Plouffe
 
-<img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" height="50"/>
+<img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" height="100"/>
 
 * Bellard
 
-<img src="https://user-images.githubusercontent.com/60443339/195336107-7465da26-237c-4a67-8d18-00bc4136e8ca.png" alt="drawing" height="50"/>
+<img src="https://user-images.githubusercontent.com/60443339/195336107-7465da26-237c-4a67-8d18-00bc4136e8ca.png" alt="drawing" height="150"/>
 
 * Chudnovsky
 
-<img src="https://user-images.githubusercontent.com/60443339/195336414-27422fd3-4884-4cf4-a7b8-47bf49f5b67a.png" alt="drawing" height="50"/>
+<img src="https://user-images.githubusercontent.com/60443339/195336414-27422fd3-4884-4cf4-a7b8-47bf49f5b67a.png" alt="drawing" height="100"/>
 
 
 ### Multiple Precision Floating Point Libraries
@@ -59,7 +59,7 @@ En example of use could be:
 ```
 And the output could be:
 
-<img src="https://user-images.githubusercontent.com/60443339/195339706-35d6c8d7-a0e1-4732-87dd-57f886090160.png" alt="drawing" height="100"/>
+<img src="https://user-images.githubusercontent.com/60443339/195339706-35d6c8d7-a0e1-4732-87dd-57f886090160.png" alt="drawing" height="200"/>
 
 
 
