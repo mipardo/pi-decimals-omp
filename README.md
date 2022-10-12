@@ -1,8 +1,5 @@
 # PiDecimals
 
-<img src="https://user-images.githubusercontent.com/60443339/195343726-ec956e18-6da5-4765-887d-d2babf642658.png" alt="drawing" height="150"/>
-
-
 ## Introduction
 
 This program computes the Pi number using different Spigot algorithms. 
@@ -22,7 +19,7 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 * Bellard. The expression is presented as follows:
 
-<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" height="120"/>
+<img src="https://user-images.githubusercontent.com/60443339/195340916-7508ee10-2209-413a-b24a-92cede2aea44.png" alt="drawing" height="100"/>
 
 * Chudnovsky. The expression is shown below:
 
