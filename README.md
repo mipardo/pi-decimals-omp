@@ -51,7 +51,7 @@ When the source code is compiled you are ready to launch:
 * algorithm is a value between 0 and X. The X value may depend on the library used.
 * precision param is the value of precision you want to use to perform the operations. 
 * num_threads param is the number of threads that you want to use to perform the operations.
-* -csv param is optional. If this param is selected the program will show the results in csv format.
+* -csv param is optional. If this param is used the program will show the results in csv format.
 
 En example of use could be:
 ```console
