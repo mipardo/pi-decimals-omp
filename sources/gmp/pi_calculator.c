@@ -7,10 +7,10 @@
 #include "check_decimals.h"
 #include "algorithms/bbp_blocks.h"
 #include "algorithms/bbp_cyclic.h"
-#include "algorithms/bellard.h"
-#include "algorithms/chudnovsky_v1.h"
-#include "algorithms/chudnovsky_v2.h"
-#include "algorithms/chudnovsky.h"
+#include "algorithms/bellard_cyclic.h"
+#include "algorithms/chudnovsky_blocks_with_all_factorials.h"
+#include "algorithms/chudnovsky_blocks_with_simplified_expression.h"
+#include "algorithms/chudnovsky_cheater_with_simplified_expression.h"
 
 
 double gettimeofday();
@@ -56,42 +56,42 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
         num_iterations = precision * 0.84;
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
         algorithm_type = "BBP (Cyclic distribution)";
-        bbp_algorithm_cyclic_gmp(pi, num_iterations, num_threads);
+        bbp_cyclic_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
     case 1:
         num_iterations = precision * 0.84;
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
         algorithm_type = "BBP (Block distribution)";
-        bbp_algorithm_blocks_gmp(pi, num_iterations, num_threads);
+        bbp_blocks_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
     case 2:
         num_iterations = precision / 3;
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
         algorithm_type = "Bellard (Cyclic Distribution)";
-        bellard_algorithm_gmp(pi, num_iterations, num_threads);
+        bellard_cyclic_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
     case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
         algorithm_type = "Chudnovsky (Block Distribution and computing all factorials)";
-        chudnovsky_algorithm_v1_gmp(pi, num_iterations, num_threads);
+        chudnovsky_blocks_with_all_factorials_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
     case 4:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
         algorithm_type = "Chudnovsky (Block distribution and using the simplified mathematical expression)";
-        chudnovsky_algorithm_v2_gmp(pi, num_iterations, num_threads);
+        chudnovsky_blocks_with_simplified_expression_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
     case 5:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_gmp(precision, num_iterations, num_threads, algorithm);
         algorithm_type = "Chudnovsky (Non-proportional block distribution and using the simplified mathematical expression)";
-        chudnovsky_algorithm_gmp(pi, num_iterations, num_threads);
+        chudnovsky_cheater_with_simplified_expression_algorithm_gmp(pi, num_iterations, num_threads);
         break;
 
     default:

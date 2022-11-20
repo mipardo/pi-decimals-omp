@@ -32,7 +32,7 @@
 /*
  * An iteration of Bailey Borwein Plouffe formula
  */
-void bbp_iteration_v1_gmp(mpf_t pi, int n, mpf_t quotient){
+void bbp_slow_iteration_gmp(mpf_t pi, int n, mpf_t quotient){
     mpf_t quot_a, quot_b, quot_c, quot_d, quot_m, aux;
 
     mpf_init_set_ui(quot_a, 4);         // quot_a = (  4 / 8n + 1))
@@ -63,12 +63,8 @@ void bbp_iteration_v1_gmp(mpf_t pi, int n, mpf_t quotient){
 }
 
 
-/*
- * Parallel Pi number calculation using the BBP algorithm
- * The number of iterations is divided cyclically, 
- * so each thread calculates a part of Pi.  
- */
-void bbp_algorithm_v1_gmp(mpf_t pi, int num_iterations, int num_threads){
+
+void bbp_cyclic_slow_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     int thread_id, i;
     mpf_t quotient; 
 
@@ -87,7 +83,7 @@ void bbp_algorithm_v1_gmp(mpf_t pi, int num_iterations, int num_threads){
         //First Phase -> Working on a local variable        
         #pragma omp parallel for 
             for(i = thread_id; i < num_iterations; i+=num_threads){
-                bbp_iteration_v1_gmp(local_pi, i, quotient);    
+                bbp_slow_iteration_gmp(local_pi, i, quotient);    
             }
 
         //Second Phase -> Accumulate the result in the global variable

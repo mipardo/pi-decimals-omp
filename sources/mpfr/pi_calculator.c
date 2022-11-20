@@ -5,9 +5,9 @@
 #include <stdbool.h>
 #include "../common/printer.h"
 #include "check_decimals.h"
-#include "algorithms/bbp.h"
-#include "algorithms/bellard.h"
-#include "algorithms/chudnovsky.h"
+#include "algorithms/bbp_blocks.h"
+#include "algorithms/bellard_cyclic.h"
+#include "algorithms/chudnovsky_blocks.h"
 
 
 double gettimeofday();
@@ -45,21 +45,21 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print
         num_iterations = precision * 0.84;
         check_errors_mpfr(precision, num_iterations, num_threads);
         algorithm_type = "BBP (Block distribution)";
-        bbp_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
+        bbp_blocks_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 1:
         num_iterations = precision / 3;
         check_errors_mpfr(precision, num_iterations, num_threads);
         algorithm_type = "Bellard (Cyclic Distribution)";
-        bellard_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
+        bellard_cyclic_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 2:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors_mpfr(precision, num_iterations, num_threads);
         algorithm_type = "Chudnovsky (Block distribution and using the simplified mathematical expresion)";
-        chudnovsky_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
+        chudnovsky_blocks_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
         break;
     
     default:

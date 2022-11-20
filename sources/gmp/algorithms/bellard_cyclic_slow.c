@@ -76,13 +76,8 @@ void bellard_iteration_gmp(mpf_t pi, int n, mpf_t m, mpf_t a, mpf_t b, mpf_t c, 
     mpf_add(pi, pi, aux); 
 }
 
-/*
- * Parallel Pi number calculation using the Bellard algorithm
- * Multiple threads can be used
- * The number of iterations is divided cyclically, 
- * so each thread calculates a part of Pi.  
- */
-void bellard_algorithm_v1_gmp(mpf_t pi, int num_iterations, int num_threads){
+
+void bellard_cyclic_slow_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_t jump; 
 
     mpf_init_set_ui(jump, 1); 

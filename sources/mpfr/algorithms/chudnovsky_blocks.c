@@ -79,13 +79,8 @@ void init_dep_a_mpfr(mpfr_t dep_a, int block_start, int precision_bits){
     mpfr_clears(float_dividend, float_divisor, NULL);
 }
 
-/*
- * Parallel Pi number calculation using the Chudnovsky algorithm
- * Multiple threads can be used
- * The number of iterations is divided by blocks 
- * so each thread calculates a part of pi.  
- */
-void chudnovsky_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+
+void chudnovsky_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t e, c;
 
     mpfr_inits2(precision_bits, e, c, NULL);

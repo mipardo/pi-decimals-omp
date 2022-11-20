@@ -80,13 +80,7 @@ void chudnovsky_iteration_v1_gmp(mpf_t pi, int n, mpf_t dep_a, mpf_t dep_b, mpf_
     mpf_add(pi, pi, dividend);
 }
 
-/*
- * Parallel Pi number calculation using the Chudnovsky algorithm
- * Multiple threads can be used
- * The number of iterations is divided by blocks 
- * so each thread calculates a part of pi.  
- */
-void chudnovsky_algorithm_v1_gmp(mpf_t pi, int num_iterations, int num_threads){
+void chudnovsky_blocks_with_all_factorials_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_t e, c;
     int num_factorials, block_size;
     

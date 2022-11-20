@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "chudnovsky_v1.h"
+#include "chudnovsky_blocks_with_all_factorials.h"
 
 #define A 13591409
 #define B 545140134
@@ -77,13 +77,7 @@ void init_dep_a_v2_gmp(mpf_t dep_a, int block_start){
     mpf_clears(float_dividend, float_divisor, NULL);
 }
 
-/*
- * Parallel Pi number calculation using the Chudnovsky algorithm
- * Multiple threads can be used
- * The number of iterations is divided by blocks 
- * so each thread calculates a part of pi.  
- */
-void chudnovsky_algorithm_v2_gmp(mpf_t pi, int num_iterations, int num_threads){
+void chudnovsky_blocks_with_simplified_expression_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_t e, c;
     int block_size;
     

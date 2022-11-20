@@ -63,13 +63,7 @@ void bbp_iteration_gmp(mpf_t pi, int n, mpf_t dep_m, mpf_t quot_a, mpf_t quot_b,
 }
 
 
-/*
- * Parallel Pi number calculation using the BBP algorithm
- * Multiple threads can be used
- * The number of iterations is divided cyclically, 
- * so each thread calculates a part of Pi.  
- */
-void bbp_algorithm_cyclic_gmp(mpf_t pi, int num_iterations, int num_threads){
+void bbp_cyclic_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_t jump, quotient; 
 
     mpf_init_set_d(quotient, QUOTIENT);         // quotient = (1 / 16)   

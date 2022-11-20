@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "bellard_v1.h"
+#include "bellard_cyclic_slow.h"
 
 
 /************************************************************************************
@@ -38,13 +38,7 @@
  ************************************************************************************/
 
 
-/*
- * Parallel Pi number calculation using the Bellard algorithm
- * Multiple threads can be used
- * The number of iterations is divided cyclically, 
- * so each thread calculates a part of Pi.  
- */
-void bellard_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
+void bellard_cyclic_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_t ONE;
     mpf_init_set_ui(ONE, 1);
 

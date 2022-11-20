@@ -37,13 +37,8 @@
  *                                                                                  *
  ************************************************************************************/
 
-/*
- * Parallel Pi number calculation using the BBP algorithm
- * Multiple threads can be used
- * The number of iterations is divided in blocks, 
- * so each thread calculates a part of Pi.  
- */
-void bbp_algorithm_blocks_gmp(mpf_t pi, int num_iterations, int num_threads){
+
+void bbp_blocks_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_t quotient; 
 
     mpf_init_set_d(quotient, QUOTIENT);         // quotient = (1 / 16)   

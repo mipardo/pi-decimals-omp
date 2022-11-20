@@ -63,14 +63,8 @@ void bbp_iteration_mpfr(mpfr_t pi, int n, mpfr_t dep_m, mpfr_t quot_a, mpfr_t qu
     mpfr_add(pi, pi, aux, MPFR_RNDN);  
 }
 
-/*
- * Parallel Pi number calculation using the BBP algorithm
- * Multiple threads can be used
- * The number of iterations is divided in blocks, 
- * so each thread calculates a part of Pi.  
- */
 
-void bbp_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void bbp_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t quotient; 
 
     mpfr_init_set_d(quotient, QUOTIENT, MPFR_RNDN);         // quotient = (1 / 16)   

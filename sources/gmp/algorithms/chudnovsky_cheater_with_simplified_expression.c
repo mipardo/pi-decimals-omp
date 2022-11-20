@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "chudnovsky_v2.h"
+#include "chudnovsky_blocks_with_simplified_expression.h"
 
 
 #define A 13591409
@@ -123,13 +123,7 @@ int * get_thread_distribution(int num_threads, int thread_id, int num_iterations
 
 
 
-/*
- * Parallel Pi number calculation using the Chudnovsky algorithm
- * Multiple threads can be used
- * The number of iterations is divided by blocks 
- * so each thread calculates a part of pi.  
- */
-void chudnovsky_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
+void chudnovsky_cheater_with_simplified_expression_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
     mpf_t e, c;
 
     mpf_init_set_ui(e, E);
