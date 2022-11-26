@@ -43,31 +43,6 @@
  ************************************************************************************/
 
 
-/*
- * This method is used by ParallelChudnovskyAlgorithm threads
- * for computing the first value of dep_a
- */
-void init_dep_a_gmp(mpf_t dep_a, int block_start){
-    mpz_t factorial_n, dividend, divisor;
-    mpf_t float_dividend, float_divisor;
-    mpz_inits(factorial_n, dividend, divisor, NULL);
-    mpf_inits(float_dividend, float_divisor, NULL);
-
-    mpz_fac_ui(factorial_n, block_start);
-    mpz_fac_ui(divisor, 3 * block_start);
-    mpz_fac_ui(dividend, 6 * block_start);
-
-    mpz_pow_ui(factorial_n, factorial_n, 3);
-    mpz_mul(divisor, divisor, factorial_n);
-
-    mpf_set_z(float_dividend, dividend);
-    mpf_set_z(float_divisor, divisor);
-
-    mpf_div(dep_a, float_dividend, float_divisor);
-
-    mpz_clears(factorial_n, dividend, divisor, NULL);
-    mpf_clears(float_dividend, float_divisor, NULL);
-}
 
 /*
  * This method provides an optimal distribution for each thread

@@ -30,21 +30,40 @@ void print_title() {
     fclose(file);
 }
 
-void print_results(char *library, char *algorithm_type, int precision, int num_iterations, int num_threads, int decimals_computed, double execution_time) {
+void check_errors(int precision, int num_iterations, int num_threads){
+    if (precision <= 0){
+        printf("  Precision should be greater than cero. \n\n");
+        exit(-1);
+    } 
+    if (num_iterations < num_threads){
+        printf("  The number of iterations required for the computation is too small to be solved with %d threads. \n", num_threads);
+        printf("  Try using a greater precision or lower threads number. \n\n");
+        exit(-1);
+    }
+}
+
+void print_results(char *library, char *algorithm_tag, int precision, int num_iterations, int num_threads, int decimals_computed, double execution_time) {
     printf("  Library used: %s \n", library);
-    printf("  Algorithm: %s \n", algorithm_type);
+    printf("  Algorithm: %s \n", algorithm_tag);
     printf("  Precision used: %d \n", precision);
     printf("  Number of iterations: %d \n", num_iterations);
     printf("  Number of threads: %d \n", num_threads);
-    printf("  Correct decimals: %d \n", decimals_computed);
+    if (decimals_computed >= precision) { printf("  Correct decimals: %d \n", decimals_computed); } 
+    else { printf("  Something went wrong. The execution just achieved %d decimals \n", decimals_computed); }
     printf("  Execution time: %f seconds \n", execution_time);
     printf("\n");
 }
 
-void print_results_csv(char *library, char *algorithm_type, int precision, int num_iterations, int num_threads, int decimals_computed, double execution_time) {
-    char execution_time_string[100];
-    replace_decimal_point_by_coma(execution_time, execution_time_string);
-    //printf("paradigm_type;library;algorithm_type;precision;num_iterations;num_threads;decimals_computed;execution_time;\n");
-    printf("OMP;%s;%s;%d;%d;%d;%d;%s;\n", library, algorithm_type, precision, num_iterations, num_threads, decimals_computed, execution_time_string);
+void print_results_csv(char *library, char *algorithm_tag, int precision, int num_iterations, int num_threads, int decimals_computed, double execution_time) {
+    //char execution_time_string[100];
+    //replace_decimal_point_by_coma(execution_time, execution_time_string);
+    printf("OMP;");
+    printf("%s;", library);
+    printf("%s;", algorithm_tag);
+    printf("%d;", precision);
+    printf("%d;", num_iterations);
+    printf("%d;", num_threads);
+    printf("%d;", decimals_computed);
+    printf("%f;\n", execution_time);
 }
 
