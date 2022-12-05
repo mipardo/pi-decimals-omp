@@ -106,25 +106,23 @@ void bellard_cyclic_slow_algorithm_gmp(mpf_t pi, int num_iterations, int num_thr
 
         //First Phase -> Working on a local variable
         if(num_threads % 2 != 0){
-            #pragma omp parallel for 
-                for(i = thread_id; i < num_iterations; i+=num_threads){
-                    bellard_iteration_gmp(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
-                    // Update dependencies for next iteration:
-                    mpf_mul(dep_m, dep_m, jump); 
-                    mpf_neg(dep_m, dep_m); 
-                    dep_a += jump_dep_a;
-                    dep_b += jump_dep_b;  
-                }
-        } else {
-            #pragma omp parallel for
-                for(i = thread_id; i < num_iterations; i+=num_threads){
-                    bellard_iteration_gmp(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
-                    // Update dependencies for next iteration:
-                    mpf_mul(dep_m, dep_m, jump);    
-                    dep_a += jump_dep_a;
-                    dep_b += jump_dep_b;  
-                }
+            for(i = thread_id; i < num_iterations; i+=num_threads){
+                bellard_iteration_gmp(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                // Update dependencies for next iteration:
+                mpf_mul(dep_m, dep_m, jump); 
+                mpf_neg(dep_m, dep_m); 
+                dep_a += jump_dep_a;
+                dep_b += jump_dep_b;  
             }
+        } else {
+            for(i = thread_id; i < num_iterations; i+=num_threads){
+                bellard_iteration_gmp(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                // Update dependencies for next iteration:
+                mpf_mul(dep_m, dep_m, jump);    
+                dep_a += jump_dep_a;
+                dep_b += jump_dep_b;  
+            }
+        }
 
         //Second Phase -> Accumulate the result in the global variable
         #pragma omp critical

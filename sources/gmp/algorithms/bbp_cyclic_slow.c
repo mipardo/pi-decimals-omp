@@ -81,10 +81,9 @@ void bbp_cyclic_slow_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads
         mpf_init_set_ui(local_pi, 0);   // private thread pi
         
         //First Phase -> Working on a local variable        
-        #pragma omp parallel for 
-            for(i = thread_id; i < num_iterations; i+=num_threads){
-                bbp_slow_iteration_gmp(local_pi, i, quotient);    
-            }
+        for(i = thread_id; i < num_iterations; i+=num_threads){
+            bbp_slow_iteration_gmp(local_pi, i, quotient);    
+        }
 
         //Second Phase -> Accumulate the result in the global variable
         #pragma omp critical

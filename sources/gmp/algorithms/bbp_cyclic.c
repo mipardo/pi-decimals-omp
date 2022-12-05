@@ -85,12 +85,11 @@ void bbp_cyclic_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
         mpf_inits(quot_a, quot_b, quot_c, quot_d, aux, NULL);
 
         //First Phase -> Working on a local variable        
-        #pragma omp parallel for 
-            for(i = thread_id; i < num_iterations; i+=num_threads){
-                bbp_iteration_gmp(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
-                // Update dependencies:  
-                mpf_mul(dep_m, dep_m, jump);
-            }
+        for(i = thread_id; i < num_iterations; i+=num_threads){
+            bbp_iteration_gmp(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
+            // Update dependencies:  
+            mpf_mul(dep_m, dep_m, jump);
+        }
 
         //Second Phase -> Accumulate the result in the global variable
         #pragma omp critical

@@ -114,26 +114,25 @@ void chudnovsky_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_thr
         factor_a = 12 * block_start;
 
         //First Phase -> Working on a local variable        
-        #pragma omp parallel for 
-            for(i = block_start; i < block_end; i++){
-                chudnovsky_iteration_mpfr(local_pi, i, dep_a, dep_b, dep_c, aux);
-                //Update dep_a:
-                mpfr_set_ui(dep_a_dividend, factor_a + 10, MPFR_RNDN);
-                mpfr_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 6, MPFR_RNDN);
-                mpfr_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 2, MPFR_RNDN);
-                mpfr_mul(dep_a_dividend, dep_a_dividend, dep_a, MPFR_RNDN);
+        for(i = block_start; i < block_end; i++){
+            chudnovsky_iteration_mpfr(local_pi, i, dep_a, dep_b, dep_c, aux);
+            //Update dep_a:
+            mpfr_set_ui(dep_a_dividend, factor_a + 10, MPFR_RNDN);
+            mpfr_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 6, MPFR_RNDN);
+            mpfr_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 2, MPFR_RNDN);
+            mpfr_mul(dep_a_dividend, dep_a_dividend, dep_a, MPFR_RNDN);
 
-                mpfr_set_ui(dep_a_divisor, i + 1, MPFR_RNDN);
-                mpfr_pow_ui(dep_a_divisor, dep_a_divisor , 3, MPFR_RNDN);
-                mpfr_div(dep_a, dep_a_dividend, dep_a_divisor, MPFR_RNDN);
-                factor_a += 12;
+            mpfr_set_ui(dep_a_divisor, i + 1, MPFR_RNDN);
+            mpfr_pow_ui(dep_a_divisor, dep_a_divisor , 3, MPFR_RNDN);
+            mpfr_div(dep_a, dep_a_dividend, dep_a_divisor, MPFR_RNDN);
+            factor_a += 12;
 
-                //Update dep_b:
-                mpfr_mul(dep_b, dep_b, c, MPFR_RNDN);
+            //Update dep_b:
+            mpfr_mul(dep_b, dep_b, c, MPFR_RNDN);
 
-                //Update dep_c:
-                mpfr_add_ui(dep_c, dep_c, B, MPFR_RNDN);
-            }
+            //Update dep_c:
+            mpfr_add_ui(dep_c, dep_c, B, MPFR_RNDN);
+        }
 
         //Second Phase -> Accumulate the result in the global variable 
         #pragma omp critical

@@ -91,12 +91,11 @@ void bbp_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, i
         
 
         //First Phase -> Working on a local variable        
-        #pragma omp parallel for 
-            for(i = block_start; i < block_end; i++){
-                bbp_iteration_mpfr(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
-                // Update dependencies:  
-                mpfr_mul(dep_m, dep_m, quotient, MPFR_RNDN);
-            }
+        for(i = block_start; i < block_end; i++){
+            bbp_iteration_mpfr(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
+            // Update dependencies:  
+            mpfr_mul(dep_m, dep_m, quotient, MPFR_RNDN);
+        }
 
         //Second Phase -> Accumulate the result in the global variable
         #pragma omp critical

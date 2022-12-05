@@ -121,17 +121,15 @@ void chudnovsky_blocks_with_all_factorials_algorithm_gmp(mpf_t pi, int num_itera
         mpf_add_ui(dep_e, dep_e, A);
 
         //First Phase -> Working on a local variable        
-        #pragma omp parallel for 
-            for(i = block_start; i < block_end; i++){
-                chudnovsky_iteration_v1_gmp(local_pi, i, dep_a, dep_b, dep_c, dep_d, dep_e, dividend, divisor);
-                //Update dependencies
-                mpf_set(dep_a, factorials[6 * (i + 1)]);
-                mpf_pow_ui(dep_b, factorials[i + 1], 3);
-                mpf_set(dep_c, factorials[3 * (i + 1)]);
-                mpf_mul(dep_d, dep_d, c);
-                mpf_add_ui(dep_e, dep_e, B);
-            }
-
+        for(i = block_start; i < block_end; i++){
+            chudnovsky_iteration_v1_gmp(local_pi, i, dep_a, dep_b, dep_c, dep_d, dep_e, dividend, divisor);
+            //Update dependencies
+            mpf_set(dep_a, factorials[6 * (i + 1)]);
+            mpf_pow_ui(dep_b, factorials[i + 1], 3);
+            mpf_set(dep_c, factorials[3 * (i + 1)]);
+            mpf_mul(dep_d, dep_d, c);
+            mpf_add_ui(dep_e, dep_e, B);
+        }
 
         //Second Phase -> Accumulate the result in the global variable 
         #pragma omp critical

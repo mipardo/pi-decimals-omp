@@ -108,24 +108,22 @@ void bellard_cyclic_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_thread
 
         //First Phase -> Working on a local variable
         if(num_threads % 2 != 0){
-            #pragma omp parallel for 
-                for(i = thread_id; i < num_iterations; i+=num_threads){
-                    bellard_iteration_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
-                    // Update dependencies for next iteration:
-                    mpfr_mul(dep_m, dep_m, jump, MPFR_RNDN); 
-                    mpfr_neg(dep_m, dep_m, MPFR_RNDN); 
-                    dep_a += jump_dep_a;
-                    dep_b += jump_dep_b;  
-                }
+            for(i = thread_id; i < num_iterations; i+=num_threads){
+                bellard_iteration_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                // Update dependencies for next iteration:
+                mpfr_mul(dep_m, dep_m, jump, MPFR_RNDN); 
+                mpfr_neg(dep_m, dep_m, MPFR_RNDN); 
+                dep_a += jump_dep_a;
+                dep_b += jump_dep_b;  
+            }
         } else {
-            #pragma omp parallel for
-                for(i = thread_id; i < num_iterations; i+=num_threads){
-                    bellard_iteration_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
-                    // Update dependencies for next iteration:
-                    mpfr_mul(dep_m, dep_m, jump, MPFR_RNDN);    
-                    dep_a += jump_dep_a;
-                    dep_b += jump_dep_b;  
-                }
+            for(i = thread_id; i < num_iterations; i+=num_threads){
+                bellard_iteration_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                // Update dependencies for next iteration:
+                mpfr_mul(dep_m, dep_m, jump, MPFR_RNDN);    
+                dep_a += jump_dep_a;
+                dep_b += jump_dep_b;  
+            }
         }
 
         //Second Phase -> Accumulate the result in the global variable
