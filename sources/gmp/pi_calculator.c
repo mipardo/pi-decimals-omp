@@ -12,6 +12,7 @@
 #include "algorithms/chudnovsky_blocks_with_simplified_expression.h"
 #include "algorithms/chudnovsky_cheater_with_simplified_expression.h"
 #include "algorithms/chudnovsky_snake_like_with_simplified_expression.h"
+#include "algorithms/chudnovsky_simplified_expression_integers_blocks.h"
 
 
 double gettimeofday();
@@ -79,6 +80,13 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-SNK";
         chudnovsky_snake_like_with_simplified_expression_algorithm_gmp(pi, num_iterations, num_threads);
+        break;
+
+    case 7:
+        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
+        check_errors(precision, num_iterations, num_threads);
+        algorithm_tag = "GMP-CHD-SME-INT-BLC";
+        gmp_chudnovsky_simplified_expression_integers_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     default:

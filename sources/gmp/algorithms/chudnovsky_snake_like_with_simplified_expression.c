@@ -3,7 +3,6 @@
 #include <gmp.h>
 #include <omp.h>
 #include "chudnovsky_blocks_with_simplified_expression.h"
-#include "chudnovsky_cheater_with_simplified_expression.h"
 
 #define A 13591409
 #define B 545140134
