@@ -38,7 +38,7 @@
 /*
  * An iteration of Bailey Borwein Plouffe formula
  */
-void bbp_iteration_gmp(mpf_t pi, int n, mpf_t dep_m, mpf_t quot_a, mpf_t quot_b, mpf_t quot_c, mpf_t quot_d, mpf_t aux){
+void gmp_bbp_iteration(mpf_t pi, int n, mpf_t dep_m, mpf_t quot_a, mpf_t quot_b, mpf_t quot_c, mpf_t quot_d, mpf_t aux){
     mpf_set_ui(quot_a, 4);              // quot_a = ( 4 / (8n + 1))
     mpf_set_ui(quot_b, 2);              // quot_b = (-2 / (8n + 4))
     mpf_set_ui(quot_c, 1);              // quot_c = (-1 / (8n + 5))
@@ -63,7 +63,7 @@ void bbp_iteration_gmp(mpf_t pi, int n, mpf_t dep_m, mpf_t quot_a, mpf_t quot_b,
 }
 
 
-void bbp_cyclic_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
+void gmp_bbp_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t jump, quotient; 
 
     mpf_init_set_d(quotient, QUOTIENT);         // quotient = (1 / 16)   
@@ -86,7 +86,7 @@ void bbp_cyclic_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
 
         //First Phase -> Working on a local variable        
         for(i = thread_id; i < num_iterations; i+=num_threads){
-            bbp_iteration_gmp(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
+            gmp_bbp_iteration(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
             // Update dependencies:  
             mpf_mul(dep_m, dep_m, jump);
         }

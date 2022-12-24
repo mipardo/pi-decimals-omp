@@ -38,7 +38,7 @@
  ************************************************************************************/
 
 
-void bbp_blocks_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
+void gmp_bbp_blocks_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t quotient; 
 
     mpf_init_set_d(quotient, QUOTIENT);         // quotient = (1 / 16)   
@@ -64,7 +64,7 @@ void bbp_blocks_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
 
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
-            bbp_iteration_gmp(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
+            gmp_bbp_iteration(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
             // Update dependencies:  
             mpf_mul(dep_m, dep_m, quotient);
         }

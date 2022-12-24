@@ -1,7 +1,7 @@
-#ifndef BELLARD_CYCLIC_GMP
-#define BELLARD_CYCLIC_GMP
+#ifndef GMP_BELLARD_CYCLIC
+#define GMP_BELLARD_CYCLIC
 
-void bellard_cyclic_algorithm_gmp(mpf_t, int, int);
+void gmp_bellard_cyclic_algorithm(mpf_t, int, int);
 
 #endif
 

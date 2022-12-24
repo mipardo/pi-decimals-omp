@@ -43,7 +43,7 @@
  * factorials[0] = 1, factorials[1] = 1, factorials[2] = 2, factorials[3] = 6, etc.
  * The computation is performed with a single thread. 
  */
-void get_factorials_gmp(mpf_t * factorials, int num_factorials){
+void gmp_get_factorials(mpf_t * factorials, int num_factorials){
     int i;
     mpf_t f;
     mpf_init_set_ui(f, 1);
@@ -58,7 +58,7 @@ void get_factorials_gmp(mpf_t * factorials, int num_factorials){
 /*
  * This method clears the factorials computed and stored in mpf_t * factorials
  */
-void clear_factorials_gmp(mpf_t * factorials, int num_factorials){
+void gmp_clear_factorials(mpf_t * factorials, int num_factorials){
     int i;
     for(i = 0; i <= num_factorials; i++){
         mpf_clear(factorials[i]);
@@ -68,7 +68,7 @@ void clear_factorials_gmp(mpf_t * factorials, int num_factorials){
 /*
  * An iteration of Chudnovsky formula
  */
-void chudnovsky_iteration_v1_gmp(mpf_t pi, int n, mpf_t dep_a, mpf_t dep_b, mpf_t dep_c, 
+void gmp_chudnovsky_all_factorials_iteration(mpf_t pi, int n, mpf_t dep_a, mpf_t dep_b, mpf_t dep_c, 
                         mpf_t dep_d, mpf_t dep_e, mpf_t dividend, mpf_t divisor){
     mpf_mul(dividend, dep_a, dep_e);
 
@@ -80,13 +80,13 @@ void chudnovsky_iteration_v1_gmp(mpf_t pi, int n, mpf_t dep_a, mpf_t dep_b, mpf_
     mpf_add(pi, pi, dividend);
 }
 
-void chudnovsky_blocks_with_all_factorials_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
+void gmp_chudnovsky_all_factorials_blocks_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t e, c;
     int num_factorials, block_size;
     
     num_factorials = num_iterations * 6;
     mpf_t factorials[num_factorials + 1];
-    get_factorials_gmp(factorials, num_factorials);
+    gmp_get_factorials(factorials, num_factorials);
 
     block_size = (num_iterations + num_threads - 1) / num_threads;
     mpf_init_set_ui(e, E);
@@ -122,7 +122,7 @@ void chudnovsky_blocks_with_all_factorials_algorithm_gmp(mpf_t pi, int num_itera
 
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
-            chudnovsky_iteration_v1_gmp(local_pi, i, dep_a, dep_b, dep_c, dep_d, dep_e, dividend, divisor);
+            gmp_chudnovsky_all_factorials_iteration(local_pi, i, dep_a, dep_b, dep_c, dep_d, dep_e, dividend, divisor);
             //Update dependencies
             mpf_set(dep_a, factorials[6 * (i + 1)]);
             mpf_pow_ui(dep_b, factorials[i + 1], 3);
@@ -144,6 +144,6 @@ void chudnovsky_blocks_with_all_factorials_algorithm_gmp(mpf_t pi, int num_itera
     mpf_div(pi, e, pi);    
     
     //Clear memory
-    clear_factorials_gmp(factorials, num_factorials);
+    gmp_clear_factorials(factorials, num_factorials);
     mpf_clears(c, e, NULL);
 }

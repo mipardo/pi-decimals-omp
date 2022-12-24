@@ -1,7 +1,7 @@
-#ifndef BBP_BLOCKS_GMP
-#define BBP_BLOCKS_GMP
+#ifndef GMP_BBP_BLOCKS
+#define GMP_BBP_BLOCKS
 
-void bbp_blocks_algorithm_gmp(mpf_t, int, int);
+void gmp_bbp_blocks_algorithm(mpf_t, int, int);
 
 #endif
 

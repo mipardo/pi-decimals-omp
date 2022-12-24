@@ -1,0 +1,7 @@
+#ifndef GMP_CHUDNOVSKY_SIMPLIFIED_EXPRESSION_SNAKE_LIKE
+#define GMP_CHUDNOVSKY_SIMPLIFIED_EXPRESSION_SNAKE_LIKE
+
+void gmp_chudnovsky_simplified_expression_snake_like_algorithm(mpf_t, int, int);
+
+#endif
+

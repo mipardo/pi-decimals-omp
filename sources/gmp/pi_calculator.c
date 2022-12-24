@@ -8,10 +8,10 @@
 #include "algorithms/bbp_blocks.h"
 #include "algorithms/bbp_cyclic.h"
 #include "algorithms/bellard_cyclic.h"
-#include "algorithms/chudnovsky_blocks_with_all_factorials.h"
-#include "algorithms/chudnovsky_blocks_with_simplified_expression.h"
-#include "algorithms/chudnovsky_cheater_with_simplified_expression.h"
-#include "algorithms/chudnovsky_snake_like_with_simplified_expression.h"
+#include "algorithms/chudnovsky_all_factorials_blocks.h"
+#include "algorithms/chudnovsky_simplified_expression_blocks.h"
+#include "algorithms/chudnovsky_simplified_expression_cheater.h"
+#include "algorithms/chudnovsky_simplified_expression_snake_like.h"
 #include "algorithms/chudnovsky_simplified_expression_integers_blocks.h"
 
 
@@ -37,49 +37,49 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
         num_iterations = precision * 0.84;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-BBP-CYC";
-        bbp_cyclic_algorithm_gmp(pi, num_iterations, num_threads);
+        gmp_bbp_cyclic_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 1:
         num_iterations = precision * 0.84;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-BBP-BLC";
-        bbp_blocks_algorithm_gmp(pi, num_iterations, num_threads);
+        gmp_bbp_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 2:
         num_iterations = precision / 3;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-BEL-CYC";
-        bellard_cyclic_algorithm_gmp(pi, num_iterations, num_threads);
+        gmp_bellard_cyclic_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-CAF-BLC";
-        chudnovsky_blocks_with_all_factorials_algorithm_gmp(pi, num_iterations, num_threads);
+        gmp_chudnovsky_all_factorials_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 4:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-BLC";
-        chudnovsky_blocks_with_simplified_expression_algorithm_gmp(pi, num_iterations, num_threads);
+        gmp_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 5:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-CHT";
-        chudnovsky_cheater_with_simplified_expression_algorithm_gmp(pi, num_iterations, num_threads);
+        gmp_chudnovsky_simplified_expression_cheater_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 6:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-SNK";
-        chudnovsky_snake_like_with_simplified_expression_algorithm_gmp(pi, num_iterations, num_threads);
+        gmp_chudnovsky_simplified_expression_snake_like_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 7:

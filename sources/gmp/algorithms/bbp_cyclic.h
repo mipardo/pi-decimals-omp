@@ -1,7 +1,7 @@
-#ifndef BBP_CYCLIC_GMP
-#define BBP_CYCLIC_GMP
+#ifndef GMP_BBP_CYCLIC
+#define GMP_BBP_CYCLIC
 
-void bbp_cyclic_algorithm_gmp(mpf_t, int, int);
-void bbp_iteration_gmp(mpf_t, int, mpf_t, mpf_t, mpf_t, mpf_t, mpf_t, mpf_t);
+void gmp_bbp_cyclic_algorithm(mpf_t, int, int);
+void gmp_bbp_iteration(mpf_t, int, mpf_t, mpf_t, mpf_t, mpf_t, mpf_t, mpf_t);
 
 #endif

@@ -41,7 +41,7 @@
 /*
  * An iteration of Bellard formula
  */
-void bellard_iteration_gmp(mpf_t pi, int n, mpf_t m, mpf_t a, mpf_t b, mpf_t c, mpf_t d, 
+void gmp_bellard_iteration(mpf_t pi, int n, mpf_t m, mpf_t a, mpf_t b, mpf_t c, mpf_t d, 
                     mpf_t e, mpf_t f, mpf_t g, mpf_t aux, int dep_a, int dep_b){
     mpf_set_ui(a, 32);              // a = ( 32 / ( 4n + 1))
     mpf_set_ui(b, 1);               // b = (  1 / ( 4n + 3))
@@ -77,7 +77,7 @@ void bellard_iteration_gmp(mpf_t pi, int n, mpf_t m, mpf_t a, mpf_t b, mpf_t c, 
 }
 
 
-void bellard_cyclic_slow_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
+void gmp_bellard_slow_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t jump; 
 
     mpf_init_set_ui(jump, 1); 
@@ -107,7 +107,7 @@ void bellard_cyclic_slow_algorithm_gmp(mpf_t pi, int num_iterations, int num_thr
         //First Phase -> Working on a local variable
         if(num_threads % 2 != 0){
             for(i = thread_id; i < num_iterations; i+=num_threads){
-                bellard_iteration_gmp(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                gmp_bellard_iteration(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
                 // Update dependencies for next iteration:
                 mpf_mul(dep_m, dep_m, jump); 
                 mpf_neg(dep_m, dep_m); 
@@ -116,7 +116,7 @@ void bellard_cyclic_slow_algorithm_gmp(mpf_t pi, int num_iterations, int num_thr
             }
         } else {
             for(i = thread_id; i < num_iterations; i+=num_threads){
-                bellard_iteration_gmp(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                gmp_bellard_iteration(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
                 // Update dependencies for next iteration:
                 mpf_mul(dep_m, dep_m, jump);    
                 dep_a += jump_dep_a;

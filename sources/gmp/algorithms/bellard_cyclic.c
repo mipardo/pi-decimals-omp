@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "bellard_cyclic_slow.h"
+#include "bellard_slow_cyclic.h"
 
 
 /************************************************************************************
@@ -38,7 +38,7 @@
  ************************************************************************************/
 
 
-void bellard_cyclic_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads){
+void gmp_bellard_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t ONE;
     mpf_init_set_ui(ONE, 1);
 
@@ -64,7 +64,7 @@ void bellard_cyclic_algorithm_gmp(mpf_t pi, int num_iterations, int num_threads)
 
         //First Phase -> Working on a local variable
         for(i = thread_id; i < num_iterations; i+=num_threads){
-            bellard_iteration_gmp(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+            gmp_bellard_iteration(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
             // Update dependencies for next iteration:
             next_i = i + num_threads;
             mpf_mul_2exp(dep_m, ONE, 10 * next_i);
