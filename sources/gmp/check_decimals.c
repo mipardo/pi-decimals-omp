@@ -12,9 +12,9 @@ int check_decimals_gmp(mpf_t pi){
 
     //Read the correct pi number from numeroPiCorrecto.txt file and compares the decimals to calculated pi
     FILE * file;
-    file = fopen("resources/numero_pi_correcto.txt", "r");
+    file = fopen("resources/correct_pi.txt", "r");
     if(file == NULL){
-        printf("numero_pi_correcto.txt not found \n");
+        printf("correct_pi.txt not found \n");
         exit(-1);
     } 
 
