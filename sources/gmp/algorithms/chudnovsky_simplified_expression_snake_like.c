@@ -12,7 +12,7 @@
 
 
 /************************************************************************************
- * Miguel Pardo Navarro. 17/07/2021                                                 *
+ * Miguel Pardo Navarro. 20/10/2022                                                 *
  * Chudnovsky formula implementation                                                *
  * This version does not computes all the factorials (the expression is simplified) *
  * This version uses a snake-like distribution                                      *

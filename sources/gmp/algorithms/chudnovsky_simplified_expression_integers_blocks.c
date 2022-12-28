@@ -11,7 +11,7 @@
 
 
 /************************************************************************************
- * Miguel Pardo Navarro. 17/07/2021                                                 *
+ * Miguel Pardo Navarro. 15/11/2022                                                 *
  * Chudnovsky formula implementation                                                *
  * This version does not computes all the factorials (the expression is simplified) *
  * This version uses mpz to make faster the computations related with integers      *
