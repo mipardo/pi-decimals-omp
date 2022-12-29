@@ -30,23 +30,43 @@
 /*
  * An iteration of Chudnovsky formula using the binary splitting algorithm
  */
-void gmp_chudnovsky_craig_wood_expression_iteration(int n, mpf_t sum_a, mpf_t sum_b, mpf_t a_n, mpf_t b_n, mpf_t a_n_divisor){
+void gmp_chudnovsky_craig_wood_expression_iteration(int n, mpf_t sum_a, mpf_t sum_b, mpf_t a_n, mpf_t b_n, mpf_t a_n_divisor, 
+                                                    mpf_t factor_a, mpf_t factor_b, mpf_t factor_c){
     // Computing a_n
-    mpf_mul_ui(a_n, a_n, - (((6 * n) - 1) *((2 * n) - 1) * ((6 * n) - 1)));
+    // factor_a = (6n -5)
+    mpf_set_ui(factor_a, n);
+    mpf_mul_ui(factor_a, factor_a, 6);
+    mpf_sub_ui(factor_a, factor_a, 5);
+    
+    // factor_a = (2n -1)
+    mpf_set_ui(factor_b, n);
+    mpf_mul_ui(factor_b, factor_b, 2);
+    mpf_sub_ui(factor_b, factor_b, 1);
+
+    // factor_a = (6n -1)
+    mpf_set_ui(factor_c, n);
+    mpf_mul_ui(factor_c, factor_c, 6);
+    mpf_sub_ui(factor_c, factor_c, 1);
+
+    // factor_a = -((6n -5) * (2n - 1) * (6n - 1))
+    mpf_mul(factor_a, factor_a, factor_b);
+    mpf_mul(factor_a, factor_a, factor_c);
+    mpf_neg(factor_a, factor_a);
+
+    // a_n = (factor_a * a_n_prev) / (n^3 * C)
+    mpf_mul(a_n, a_n, factor_a);
     mpf_set_ui(a_n_divisor, n);
     mpf_pow_ui(a_n_divisor, a_n_divisor, 3);
     mpf_mul_ui(a_n_divisor, a_n_divisor, C);
     mpf_div(a_n, a_n, a_n_divisor);
 
     // Computing b_n
+    // b_n = a_n * n
     mpf_mul_ui(b_n, a_n, n);
 
     // Computing sum_a and sum_b
     mpf_add(sum_a, sum_a, a_n);
     mpf_add(sum_b, sum_b, b_n);
-
-    gmp_printf(" sum_a ----- %.Ff \n", sum_a);
-    gmp_printf(" sum_b ----- %.Ff \n", sum_b);
 }
 
 void gmp_chudnovsky_craig_wood_expression_blocks_algorithm(mpf_t pi, int num_iterations, int num_threads){
@@ -54,16 +74,16 @@ void gmp_chudnovsky_craig_wood_expression_blocks_algorithm(mpf_t pi, int num_ite
     mpf_init_set_ui(e, E);
 
     int i;
-    mpf_t sum_a, sum_b, a_n, b_n, a_n_divisor;
+    mpf_t sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c;
 
-    mpf_inits(sum_a, sum_b, a_n, b_n, a_n_divisor, NULL);
+    mpf_inits(sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
 
     mpf_set_ui(a_n, 1);
     mpf_set_ui(sum_a, 1);
     mpf_set_ui(sum_b, 0);
 
     for(i = 1; i < num_iterations; i++){
-        gmp_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor);
+        gmp_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
     }
     
 
@@ -76,7 +96,7 @@ void gmp_chudnovsky_craig_wood_expression_blocks_algorithm(mpf_t pi, int num_ite
     mpf_div(pi, e, pi);    
         
     //Clear thread memory
-    mpf_clears(sum_a, sum_b, a_n, b_n, a_n_divisor, NULL);  
+    mpf_clears(sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);  
    
     //Clear memory
     mpf_clear(e);

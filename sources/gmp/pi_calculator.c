@@ -113,7 +113,7 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
         print_results("GMP", algorithm_tag, precision, num_iterations, num_threads, decimals_computed, execution_time);
     }
 
-    gmp_printf("%.Ff \n", pi);
+    // gmp_printf("%.Ff \n", pi);
     mpf_clear(pi);
 
 }
