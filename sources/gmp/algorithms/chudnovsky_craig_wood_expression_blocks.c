@@ -70,22 +70,31 @@ void gmp_chudnovsky_craig_wood_expression_iteration(int n, mpf_t sum_a, mpf_t su
 }
 
 void gmp_chudnovsky_craig_wood_expression_blocks_algorithm(mpf_t pi, int num_iterations, int num_threads){
-    mpf_t e;
-    mpf_init_set_ui(e, E);
+    mpf_t sum_a, sum_b, e;
 
-    int i;
-    mpf_t sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c;
-
-    mpf_inits(sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
-
-    mpf_set_ui(a_n, 1);
+    mpf_inits(sum_a, sum_b, e, NULL);
+    mpf_set_ui(e, E);
     mpf_set_ui(sum_a, 1);
     mpf_set_ui(sum_b, 0);
 
-    for(i = 1; i < num_iterations; i++){
-        gmp_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
+    //Set the number of threads 
+    omp_set_num_threads(num_threads);
+
+    #pragma omp parallel
+    {
+        int thread_id, i, block_start, block_end;
+        mpf_t a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c;
+
+        mpf_inits(a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
+        mpf_set_ui(a_n, 1);
+
+        for(i = 1; i < num_iterations; i++){
+            gmp_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
+        }
+
+        //Clear thread memory
+        mpf_clears(a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);  
     }
-    
 
     mpf_mul_ui(sum_a, sum_a, A);
     mpf_mul_ui(sum_b, sum_b, B);
@@ -94,10 +103,7 @@ void gmp_chudnovsky_craig_wood_expression_blocks_algorithm(mpf_t pi, int num_ite
     mpf_sqrt(e, e);
     mpf_mul_ui(e, e, D);
     mpf_div(pi, e, pi);    
-        
-    //Clear thread memory
-    mpf_clears(sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);  
    
     //Clear memory
-    mpf_clear(e);
+    mpf_clears(sum_a, sum_b, e, NULL);
 }
