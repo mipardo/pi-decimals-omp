@@ -61,7 +61,7 @@ void mpfr_init_dep_a(mpfr_t dep_a, int block_start, int precision_bits){
     mpz_t factorial_n, dividend, divisor;
     mpfr_t float_dividend, float_divisor;
     mpz_inits(factorial_n, dividend, divisor, NULL);
-    mpfr_inits2(precision_bits ,float_dividend, float_divisor, NULL);
+    mpfr_inits2(precision_bits, float_dividend, float_divisor, NULL);
 
     mpz_fac_ui(factorial_n, block_start);
     mpz_fac_ui(divisor, 3 * block_start);
