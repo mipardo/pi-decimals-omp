@@ -39,7 +39,7 @@
 /*
  * An iteration of Bailey Borwein Plouffe formula
  */
-void bbp_iteration_mpfr(mpfr_t pi, int n, mpfr_t dep_m, mpfr_t quot_a, mpfr_t quot_b, mpfr_t quot_c, mpfr_t quot_d, mpfr_t aux){
+void mpfr_bbp_iteration(mpfr_t pi, int n, mpfr_t dep_m, mpfr_t quot_a, mpfr_t quot_b, mpfr_t quot_c, mpfr_t quot_d, mpfr_t aux){
     mpfr_set_ui(quot_a, 4, MPFR_RNDN);              // quot_a = ( 4 / (8n + 1))
     mpfr_set_ui(quot_b, 2, MPFR_RNDN);              // quot_b = (-2 / (8n + 4))
     mpfr_set_ui(quot_c, 1, MPFR_RNDN);              // quot_c = (-1 / (8n + 5))
@@ -64,7 +64,7 @@ void bbp_iteration_mpfr(mpfr_t pi, int n, mpfr_t dep_m, mpfr_t quot_a, mpfr_t qu
 }
 
 
-void bbp_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_bbp_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t quotient; 
 
     mpfr_init_set_d(quotient, QUOTIENT, MPFR_RNDN);         // quotient = (1 / 16)   
@@ -92,7 +92,7 @@ void bbp_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, i
 
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
-            bbp_iteration_mpfr(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
+            mpfr_bbp_iteration(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
             // Update dependencies:  
             mpfr_mul(dep_m, dep_m, quotient, MPFR_RNDN);
         }

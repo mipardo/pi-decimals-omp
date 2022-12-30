@@ -1,7 +1,7 @@
-#ifndef BELLARD_CYCLIC_MPFR
-#define BELLARD_CYCLIC_MPFR
+#ifndef MPFR_BELLARD_CYCLIC
+#define MPFR_BELLARD_CYCLIC
 
-int bellard_cyclic_algorithm_mpfr(mpfr_t, int, int, int);
-void bellard_iteration_mpfr(mpfr_t, int, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, int, int);
+void mpfr_bellard_cyclic_algorithm(mpfr_t, int, int, int);
+void mpfr_bellard_iteration(mpfr_t, int, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, mpfr_t, int, int);
 
 #endif

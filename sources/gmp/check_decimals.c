@@ -4,7 +4,7 @@
 #include <omp.h>
 
 
-int check_decimals_gmp(mpf_t pi){
+int gmp_check_decimals(mpf_t pi){
     //Cast the number we want to check to string
     int bytes_of_pi = ((pi -> _mp_prec + 1) * sizeof(mp_limb_t)) * sizeof(int); 
     char calculated_pi[bytes_of_pi]; 

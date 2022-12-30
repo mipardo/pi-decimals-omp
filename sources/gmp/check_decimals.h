@@ -1,6 +1,6 @@
-#ifndef CHECK_DECIMALS_GMP
-#define CHECK_DECIMALS_GMP
+#ifndef GMP_CHECK_DECIMALS
+#define GMP_CHECK_DECIMALS
 
-int check_decimals_gmp(mpf_t);
+int gmp_check_decimals(mpf_t);
 
 #endif

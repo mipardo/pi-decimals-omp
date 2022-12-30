@@ -15,7 +15,7 @@
  * Miguel Pardo Navarro. 17/07/2021                                                 *
  * Chudnovsky formula implementation                                                *
  * This version does not computes all the factorials                                *
- * It implements a single-threaded method and another that can use multiple threads *
+ * It allows using multiple threads                                                 *
  * It uses a block distribution                                                     *
  *                                                                                  *
  ************************************************************************************
@@ -44,7 +44,7 @@
 /*
  * An iteration of Chudnovsky formula
  */
-void chudnovsky_iteration_mpfr(mpfr_t pi, int n, mpfr_t dep_a, mpfr_t dep_b, 
+void mpfr_chudnovsky_iteration(mpfr_t pi, int n, mpfr_t dep_a, mpfr_t dep_b, 
                             mpfr_t dep_c, mpfr_t aux){
     mpfr_mul(aux, dep_a, dep_c, MPFR_RNDN);
     mpfr_div(aux, aux, dep_b, MPFR_RNDN);
@@ -57,7 +57,7 @@ void chudnovsky_iteration_mpfr(mpfr_t pi, int n, mpfr_t dep_a, mpfr_t dep_b,
  * This method is used by ParallelChudnovskyAlgorithm threads
  * for computing the first value of dep_a
  */
-void init_dep_a_mpfr(mpfr_t dep_a, int block_start, int precision_bits){
+void mpfr_init_dep_a(mpfr_t dep_a, int block_start, int precision_bits){
     mpz_t factorial_n, dividend, divisor;
     mpfr_t float_dividend, float_divisor;
     mpz_inits(factorial_n, dividend, divisor, NULL);
@@ -80,7 +80,7 @@ void init_dep_a_mpfr(mpfr_t dep_a, int block_start, int precision_bits){
 }
 
 
-void chudnovsky_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t e, c;
 
     mpfr_inits2(precision_bits, e, c, NULL);
@@ -106,7 +106,7 @@ void chudnovsky_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_thr
         
         mpfr_inits2(precision_bits, local_pi, dep_a, dep_b, dep_c, dep_a_dividend, dep_a_divisor, aux, NULL);
         mpfr_set_ui(local_pi, 0, MPFR_RNDN);    // private thread pi
-        init_dep_a_mpfr(dep_a, block_start, precision_bits);
+        mpfr_init_dep_a(dep_a, block_start, precision_bits);
         mpfr_pow_ui(dep_b, c, block_start, MPFR_RNDN);
         mpfr_set_ui(dep_c, B, MPFR_RNDN);
         mpfr_mul_ui(dep_c, dep_c, block_start, MPFR_RNDN);
@@ -115,7 +115,7 @@ void chudnovsky_blocks_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_thr
 
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
-            chudnovsky_iteration_mpfr(local_pi, i, dep_a, dep_b, dep_c, aux);
+            mpfr_chudnovsky_iteration(local_pi, i, dep_a, dep_b, dep_c, aux);
             //Update dep_a:
             mpfr_set_ui(dep_a_dividend, factor_a + 10, MPFR_RNDN);
             mpfr_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 6, MPFR_RNDN);

@@ -1,6 +1,6 @@
-#ifndef BELLARD_CYCLIC_SLOW_MPFR
-#define BELLARD_CYCLIC_SLOW_MPFR
+#ifndef MPFR_BELLARD_SLOW_CYCLIC
+#define MPFR_BELLARD_SLOW_CYCLIC
 
-int bellard_cyclic_slow_algorithm_mpfr(mpfr_t, int, int, int);
+void mpfr_bellard_slow_cyclic_algorithm(mpfr_t, int, int, int);
 
 #endif

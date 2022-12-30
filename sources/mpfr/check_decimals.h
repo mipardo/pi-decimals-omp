@@ -1,7 +1,7 @@
-#ifndef CHECK_DECIMALS_MPFR
-#define CHECK_DECIMALS_MPFR
+#ifndef MPFR_CHECK_DECIMALS
+#define MPFR_CHECK_DECIMALS
 
-int check_decimals_mpfr(mpfr_t);
+int mpfr_check_decimals(mpfr_t);
 
 #endif
 

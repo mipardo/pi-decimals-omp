@@ -4,7 +4,7 @@
 #include <mpfr.h>
 
 
-int check_decimals_mpfr(mpfr_t pi){
+int mpfr_check_decimals(mpfr_t pi){
     //Cast the number we want to check to string
     int bytes_of_pi =  ( (int) ceil((float) pi -> _mpfr_prec / (float) GMP_NUMB_BITS) ) * sizeof(mp_limb_t);
     char calculated_pi[bytes_of_pi * 8]; 
@@ -31,6 +31,5 @@ int check_decimals_mpfr(mpfr_t pi){
     fclose(file);
 
     //mpfr_printf("Pi: %Re \n", pi);
-
     return i;
 }

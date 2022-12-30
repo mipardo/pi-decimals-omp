@@ -7,7 +7,7 @@
 #include "check_decimals.h"
 #include "algorithms/bbp_blocks.h"
 #include "algorithms/bellard_cyclic.h"
-#include "algorithms/chudnovsky_blocks.h"
+#include "algorithms/chudnovsky_simplified_expression_blocks.h"
 
 
 double gettimeofday();
@@ -34,21 +34,21 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print
         num_iterations = precision * 0.84;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-BBP-BLC";
-        bbp_blocks_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
+        mpfr_bbp_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 1:
         num_iterations = precision / 3;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-BEL-CYC";
-        bellard_cyclic_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
+        mpfr_bellard_cyclic_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 2:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-SME-BLC";
-        chudnovsky_blocks_algorithm_mpfr(pi, num_iterations, num_threads, precision_bits);
+        mpfr_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
     
     default:
@@ -60,7 +60,7 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print
 
     gettimeofday(&t2, NULL);
     execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e6; 
-    decimals_computed = check_decimals_mpfr(pi);
+    decimals_computed = mpfr_check_decimals(pi);
     if (print_in_csv_format) { print_results_csv("MPFR", algorithm_tag, precision, num_iterations, num_threads, decimals_computed, execution_time); } 
     else { print_results("MPFR", algorithm_tag, precision, num_iterations, num_threads, decimals_computed, execution_time); }
     mpfr_clear(pi);

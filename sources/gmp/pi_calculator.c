@@ -106,7 +106,7 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
 
     gettimeofday(&t2, NULL);
     execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e6; 
-    decimals_computed = check_decimals_gmp(pi);
+    decimals_computed = gmp_check_decimals(pi);
     if (print_in_csv_format) {
         print_results_csv("GMP", algorithm_tag, precision, num_iterations, num_threads, decimals_computed, execution_time);
     } else {

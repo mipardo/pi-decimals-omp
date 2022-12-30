@@ -39,7 +39,7 @@
 /*
  * An iteration of Bellard formula
  */
-void bellard_iteration_mpfr(mpfr_t pi, int n, mpfr_t m, mpfr_t a, mpfr_t b, mpfr_t c, mpfr_t d, 
+void mpfr_bellard_iteration(mpfr_t pi, int n, mpfr_t m, mpfr_t a, mpfr_t b, mpfr_t c, mpfr_t d, 
                     mpfr_t e, mpfr_t f, mpfr_t g, mpfr_t aux, int dep_a, int dep_b){
     mpfr_set_ui(a, 32, MPFR_RNDN);              // a = ( 32 / ( 4n + 1))
     mpfr_set_ui(b, 1, MPFR_RNDN);               // b = (  1 / ( 4n + 3))
@@ -75,7 +75,7 @@ void bellard_iteration_mpfr(mpfr_t pi, int n, mpfr_t m, mpfr_t a, mpfr_t b, mpfr
 }
 
 
-void bellard_cyclic_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_bellard_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t jump; 
 
     mpfr_init2(jump, precision_bits);
@@ -109,7 +109,7 @@ void bellard_cyclic_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_thread
         //First Phase -> Working on a local variable
         if(num_threads % 2 != 0){
             for(i = thread_id; i < num_iterations; i+=num_threads){
-                bellard_iteration_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                mpfr_bellard_iteration(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
                 // Update dependencies for next iteration:
                 mpfr_mul(dep_m, dep_m, jump, MPFR_RNDN); 
                 mpfr_neg(dep_m, dep_m, MPFR_RNDN); 
@@ -118,7 +118,7 @@ void bellard_cyclic_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_thread
             }
         } else {
             for(i = thread_id; i < num_iterations; i+=num_threads){
-                bellard_iteration_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+                mpfr_bellard_iteration(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
                 // Update dependencies for next iteration:
                 mpfr_mul(dep_m, dep_m, jump, MPFR_RNDN);    
                 dep_a += jump_dep_a;

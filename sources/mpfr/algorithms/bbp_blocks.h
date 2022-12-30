@@ -1,6 +1,6 @@
-#ifndef BBP_BLOCKS_MPFR
-#define BBP_BLOCKS_MPFR
+#ifndef MPFR_BBP_BLOCKS
+#define MPFR_BBP_BLOCKS
 
-int bbp_blocks_algorithm_mpfr(mpfr_t, int, int, int);
+void mpfr_bbp_blocks_algorithm(mpfr_t, int, int, int);
 
 #endif

@@ -38,7 +38,7 @@
  *                                                                                  *
  ************************************************************************************/
 
-void bellard_cyclic_slow_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_bellard_slow_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t ONE; 
 
     mpfr_init_set_ui(ONE, 1, MPFR_RNDN); 
@@ -70,7 +70,7 @@ void bellard_cyclic_slow_algorithm_mpfr(mpfr_t pi, int num_iterations, int num_t
 
         //First Phase -> Working on a local variable
         for(i = thread_id; i < num_iterations; i+=num_threads){
-            bellard_iteration_mpfr(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
+            mpfr_bellard_iteration(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
             // Update dependencies for next iteration:
             next_i = i + num_threads;
             mpfr_mul_2exp(dep_m, ONE, 10 * next_i, MPFR_RNDN);
