@@ -8,6 +8,7 @@
 #include "algorithms/bbp_blocks.h"
 #include "algorithms/bellard_cyclic.h"
 #include "algorithms/chudnovsky_simplified_expression_blocks.h"
+#include "algorithms/chudnovsky_craig_wood_expression_blocks.h"
 
 
 double gettimeofday();
@@ -49,6 +50,13 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-SME-BLC";
         mpfr_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
+        break;
+    
+    case 3:
+        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
+        check_errors(precision, num_iterations, num_threads);
+        algorithm_tag = "MPFR-CHD-CWE-BLC";
+        mpfr_chudnovsky_craig_wood_expression_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
     
     default:
