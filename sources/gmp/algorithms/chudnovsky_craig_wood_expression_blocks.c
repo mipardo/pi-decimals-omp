@@ -69,6 +69,16 @@ void gmp_chudnovsky_craig_wood_expression_iteration(int n, mpf_t sum_a, mpf_t su
     mpf_add(sum_b, sum_b, b_n);
 }
 
+void gmp_set_first_value_of_prev_a_n(mpf_t a_n, int block_start){
+    int n = block_start - 1;
+    if (n == 0) {
+        mpf_set_ui(a_n, 1);
+        return;
+    }
+    // No se puede paralelizar...
+
+}
+
 void gmp_chudnovsky_craig_wood_expression_blocks_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t sum_a, sum_b, e;
 
@@ -82,13 +92,20 @@ void gmp_chudnovsky_craig_wood_expression_blocks_algorithm(mpf_t pi, int num_ite
 
     #pragma omp parallel
     {
-        int thread_id, i, block_start, block_end;
+        int thread_id, i, block_size, block_start, block_end;
         mpf_t a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c;
 
+        thread_id = omp_get_thread_num();
+        block_size = (num_iterations + num_threads - 1) / num_threads;
+        block_start = thread_id * block_size;
+        block_end = block_start + block_size;
+        if (block_start == 0) block_start = 1;
+        if (block_end > num_iterations) block_end = num_iterations;
+        
         mpf_inits(a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
-        mpf_set_ui(a_n, 1);
+        gmp_set_first_value_of_prev_a_n(a_n, block_start);
 
-        for(i = 1; i < num_iterations; i++){
+        for(i = block_start; i < block_end; i++){
             gmp_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
         }
 
