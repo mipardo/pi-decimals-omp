@@ -13,7 +13,7 @@
 #include "algorithms/chudnovsky_simplified_expression_cheater.h"
 #include "algorithms/chudnovsky_simplified_expression_snake_like.h"
 #include "algorithms/chudnovsky_simplified_expression_integers_blocks.h"
-#include "algorithms/chudnovsky_craig_wood_expression_blocks.h"
+#include "algorithms/chudnovsky_craig_wood_expression.h"
 
 
 double gettimeofday();
@@ -93,8 +93,8 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
     case 8:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
-        algorithm_tag = "GMP-CHD-CWE-BLC";
-        gmp_chudnovsky_craig_wood_expression_blocks_algorithm(pi, num_iterations, num_threads);
+        algorithm_tag = "GMP-CHD-CWE";
+        gmp_chudnovsky_craig_wood_expression_algorithm(pi, num_iterations, num_threads);
         break;
 
     default:

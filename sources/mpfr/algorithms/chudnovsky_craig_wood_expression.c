@@ -16,9 +16,7 @@
  * Chudnovsky formula implementation                                                *
  * This version use the Craig Wood simplified mathematical expression               * 
  * See https://www.craig-wood.com/nick/articles/pi-chudnovsky                       * 
- * This version uses mpz to make faster the computations related with integers      *
- * This version uses a blocks distribution                                          *
- * It allows to compute pi using multiple threads                                   *
+ * The iterations of the series can not be paralelized                              *
  *                                                                                  *
  ************************************************************************************
  * Chudnovsky formula:                                                              *
@@ -71,33 +69,18 @@ void mpfr_chudnovsky_craig_wood_expression_iteration(int n, mpfr_t sum_a, mpfr_t
 }
 
 
-void mpfr_chudnovsky_craig_wood_expression_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
-    mpfr_t sum_a, sum_b, e;
+void mpfr_chudnovsky_craig_wood_expression_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+    int i;
+    mpfr_t sum_a, sum_b, e, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c;
 
-    mpfr_inits2(precision_bits, sum_a, sum_b, e, NULL);
+    mpfr_inits2(precision_bits, sum_a, sum_b, e, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
     mpfr_set_ui(e, E, MPFR_RNDN);
     mpfr_set_ui(sum_a, 1, MPFR_RNDN);
     mpfr_set_ui(sum_b, 0, MPFR_RNDN);
-
-    //Set the number of threads 
-    omp_set_num_threads(num_threads);
-
-    #pragma omp parallel 
-    {   
-        int thread_id, i, block_start, block_end;
-        mpfr_t a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c;
-
-        thread_id = omp_get_thread_num();
-        mpfr_inits2(precision_bits, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
-        mpfr_set_ui(a_n, 1, MPFR_RNDN);
-        
-
-        for(i = 1; i < num_iterations; i++){
-            mpfr_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
-        }
-
-        //Clear thread memory
-        mpfr_clears(a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);   
+    mpfr_set_ui(a_n, 1, MPFR_RNDN);
+    
+    for(i = 1; i < num_iterations; i++){
+        mpfr_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
     }
 
     mpfr_mul_ui(sum_a, sum_a, A, MPFR_RNDN);
@@ -109,5 +92,5 @@ void mpfr_chudnovsky_craig_wood_expression_blocks_algorithm(mpfr_t pi, int num_i
     mpfr_div(pi, e, pi, MPFR_RNDN);    
    
     //Clear memory
-    mpfr_clears(sum_a, sum_b, e, NULL);
+    mpfr_clears(sum_a, sum_b, e, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
 }
