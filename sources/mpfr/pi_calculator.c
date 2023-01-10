@@ -55,7 +55,7 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print
     case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
-        algorithm_tag = "MPFR-CHD-CWE";
+        algorithm_tag = "MPFR-CHD-CWE-SEQ";
         mpfr_chudnovsky_craig_wood_expression_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
     
