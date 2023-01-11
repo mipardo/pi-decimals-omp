@@ -82,7 +82,7 @@ void gmp_bellard_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads)
         mpf_clears(local_pi, dep_m, a, b, c, d, e, f, g, aux, NULL);   
     }
 
-    mpf_div_ui(pi, pi, 64);
+    mpf_div_2exp(pi, pi, 6); // pi = pi / 2⁶
 
     mpf_clear(ONE);        
 }
