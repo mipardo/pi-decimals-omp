@@ -69,11 +69,11 @@ void mpfr_chudnovsky_craig_wood_expression_iteration(int n, mpfr_t sum_a, mpfr_t
 }
 
 
-void mpfr_chudnovsky_craig_wood_expression_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_chudnovsky_craig_wood_expression_algorithm(mpfr_t pi, int num_iterations, int num_threads){
     int i;
     mpfr_t sum_a, sum_b, e, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c;
 
-    mpfr_inits2(precision_bits, sum_a, sum_b, e, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
+    mpfr_inits(sum_a, sum_b, e, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c, NULL);
     mpfr_set_ui(e, E, MPFR_RNDN);
     mpfr_set_ui(sum_a, 1, MPFR_RNDN);
     mpfr_set_ui(sum_b, 0, MPFR_RNDN);

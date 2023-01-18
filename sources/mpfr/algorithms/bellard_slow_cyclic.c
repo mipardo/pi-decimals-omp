@@ -39,7 +39,7 @@
  ************************************************************************************/
 
 
-void mpfr_bellard_slow_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_bellard_slow_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads){
     mpfr_t ONE; 
     mpfr_init_set_ui(ONE, 1, MPFR_RNDN); 
 
@@ -52,17 +52,16 @@ void mpfr_bellard_slow_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_t
         mpfr_t local_pi, dep_m, a, b, c, d, e, f, g, aux;
 
         thread_id = omp_get_thread_num();
-        mpfr_init2(local_pi, precision_bits);               // private thread pi
-        mpfr_set_ui(local_pi, 0, MPFR_RNDN);
+        mpfr_init_set_ui(local_pi, 0, MPFR_RNDN);
         dep_a = thread_id * 4;
         dep_b = thread_id * 10;
         jump_dep_a = 4 * num_threads;
         jump_dep_b = 10 * num_threads;
-        mpfr_init2(dep_m, precision_bits);
+        mpfr_init(dep_m);
         mpfr_mul_2exp(dep_m, ONE, 10 * thread_id, MPFR_RNDN);
         mpfr_div(dep_m, ONE, dep_m, MPFR_RNDN);
         if(thread_id % 2 != 0) mpfr_neg(dep_m, dep_m, MPFR_RNDN);                   
-        mpfr_inits2(precision_bits, a, b, c, d, e, f, g, aux, NULL);
+        mpfr_inits(a, b, c, d, e, f, g, aux, NULL);
 
         //First Phase -> Working on a local variable
         for(i = thread_id; i < num_iterations; i+=num_threads){

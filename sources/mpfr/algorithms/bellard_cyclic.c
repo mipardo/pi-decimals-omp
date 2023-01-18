@@ -3,6 +3,8 @@
 #include <mpfr.h>
 #include <omp.h>
 
+
+
 /************************************************************************************
  * Miguel Pardo Navarro. 17/07/2021                                                 *
  * Bellard formula implementation                                                   *
@@ -75,11 +77,10 @@ void mpfr_bellard_iteration(mpfr_t pi, int n, mpfr_t m, mpfr_t a, mpfr_t b, mpfr
 }
 
 
-void mpfr_bellard_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_bellard_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads){
     mpfr_t jump; 
 
-    mpfr_init2(jump, precision_bits);
-    mpfr_set_ui(jump, 1, MPFR_RNDN); 
+    mpfr_init_set_ui(jump, 1, MPFR_RNDN);
     mpfr_div_ui(jump, jump, 1024, MPFR_RNDN);
     mpfr_pow_ui(jump, jump, num_threads, MPFR_RNDN);
 
@@ -92,19 +93,16 @@ void mpfr_bellard_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_thread
         mpfr_t local_pi, dep_m, a, b, c, d, e, f, g, aux;
 
         thread_id = omp_get_thread_num();
-
-        mpfr_init2(local_pi, precision_bits);               // private thread pi
-        mpfr_set_ui(local_pi, 0, MPFR_RNDN);
+        mpfr_init_set_ui(local_pi, 0, MPFR_RNDN);               // private thread pi
         dep_a = thread_id * 4;
         dep_b = thread_id * 10;
         jump_dep_a = 4 * num_threads;
         jump_dep_b = 10 * num_threads;
-        mpfr_init2(dep_m, precision_bits);
-        mpfr_set_ui(dep_m, 1, MPFR_RNDN);
+        mpfr_init_set_ui(dep_m, 1, MPFR_RNDN);
         mpfr_div_ui(dep_m, dep_m, 1024, MPFR_RNDN);
         mpfr_pow_ui(dep_m, dep_m, thread_id, MPFR_RNDN);        // dep_m = ((-1)^n)/1024)
         if(thread_id % 2 != 0) mpfr_neg(dep_m, dep_m, MPFR_RNDN);                   
-        mpfr_inits2(precision_bits, a, b, c, d, e, f, g, aux, NULL);
+        mpfr_inits(a, b, c, d, e, f, g, aux, NULL);
 
         //First Phase -> Working on a local variable
         if(num_threads % 2 != 0){

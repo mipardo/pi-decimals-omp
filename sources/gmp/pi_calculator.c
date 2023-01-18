@@ -8,6 +8,7 @@
 #include "algorithms/bbp_blocks.h"
 #include "algorithms/bbp_cyclic.h"
 #include "algorithms/bellard_cyclic.h"
+#include "algorithms/bellard_slow_cyclic.h"
 #include "algorithms/chudnovsky_all_factorials_blocks.h"
 #include "algorithms/chudnovsky_simplified_expression_blocks.h"
 #include "algorithms/chudnovsky_simplified_expression_cheater.h"
@@ -53,6 +54,13 @@ void calculate_pi_gmp(int algorithm, int precision, int num_threads, bool print_
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-BEL-CYC";
         gmp_bellard_cyclic_algorithm(pi, num_iterations, num_threads);
+        break;
+
+    case 20:
+        num_iterations = precision / 3;
+        check_errors(precision, num_iterations, num_threads);
+        algorithm_tag = "GMP-BEL-SLW-CYC";
+        gmp_bellard_slow_cyclic_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 3:

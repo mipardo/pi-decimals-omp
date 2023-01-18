@@ -7,6 +7,7 @@
 #include "check_decimals.h"
 #include "algorithms/bbp_blocks.h"
 #include "algorithms/bellard_cyclic.h"
+#include "algorithms/bellard_slow_cyclic.h"
 #include "algorithms/chudnovsky_simplified_expression_blocks.h"
 #include "algorithms/chudnovsky_craig_wood_expression.h"
 
@@ -35,28 +36,35 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print
         num_iterations = precision * 0.84;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-BBP-BLC";
-        mpfr_bbp_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
+        mpfr_bbp_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 1:
         num_iterations = precision / 3;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-BEL-CYC";
-        mpfr_bellard_cyclic_algorithm(pi, num_iterations, num_threads, precision_bits);
+        mpfr_bellard_cyclic_algorithm(pi, num_iterations, num_threads);
+        break;
+
+    case 10:
+        num_iterations = precision / 3;
+        check_errors(precision, num_iterations, num_threads);
+        algorithm_tag = "MPFR-BEL-SLW-CYC";
+        mpfr_bellard_slow_cyclic_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 2:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-SME-BLC";
-        mpfr_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
+        mpfr_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads);
         break;
     
     case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-CWE-SEQ";
-        mpfr_chudnovsky_craig_wood_expression_algorithm(pi, num_iterations, num_threads, precision_bits);
+        mpfr_chudnovsky_craig_wood_expression_algorithm(pi, num_iterations, num_threads);
         break;
     
     default:

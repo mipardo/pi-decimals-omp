@@ -57,11 +57,11 @@ void mpfr_chudnovsky_iteration(mpfr_t pi, int n, mpfr_t dep_a, mpfr_t dep_b,
  * This method is used by ParallelChudnovskyAlgorithm threads
  * for computing the first value of dep_a
  */
-void mpfr_init_dep_a(mpfr_t dep_a, int block_start, int precision_bits){
+void mpfr_init_dep_a(mpfr_t dep_a, int block_start){
     mpz_t factorial_n, dividend, divisor;
     mpfr_t float_dividend, float_divisor;
     mpz_inits(factorial_n, dividend, divisor, NULL);
-    mpfr_inits2(precision_bits, float_dividend, float_divisor, NULL);
+    mpfr_inits(float_dividend, float_divisor, NULL);
 
     mpz_fac_ui(factorial_n, block_start);
     mpz_fac_ui(divisor, 3 * block_start);
@@ -80,10 +80,10 @@ void mpfr_init_dep_a(mpfr_t dep_a, int block_start, int precision_bits){
 }
 
 
-void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
+void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads){
     mpfr_t e, c;
 
-    mpfr_inits2(precision_bits, e, c, NULL);
+    mpfr_inits(e, c, NULL);
     mpfr_set_ui(e, E, MPFR_RNDN);
     mpfr_set_ui(c, C, MPFR_RNDN);
     mpfr_neg(c, c, MPFR_RNDN);
@@ -104,9 +104,9 @@ void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_i
         block_end = block_start + block_size;
         if (block_end > num_iterations) block_end = num_iterations;
         
-        mpfr_inits2(precision_bits, local_pi, dep_a, dep_b, dep_c, dep_a_dividend, dep_a_divisor, aux, NULL);
+        mpfr_inits(local_pi, dep_a, dep_b, dep_c, dep_a_dividend, dep_a_divisor, aux, NULL);
         mpfr_set_ui(local_pi, 0, MPFR_RNDN);    // private thread pi
-        mpfr_init_dep_a(dep_a, block_start, precision_bits);
+        mpfr_init_dep_a(dep_a, block_start);
         mpfr_pow_ui(dep_b, c, block_start, MPFR_RNDN);
         mpfr_set_ui(dep_c, B, MPFR_RNDN);
         mpfr_mul_ui(dep_c, dep_c, block_start, MPFR_RNDN);
