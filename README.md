@@ -15,10 +15,9 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 <img src="https://user-images.githubusercontent.com/60443339/195336253-bf6aeeea-c255-458c-9f16-7fcc91d5b2c7.png" alt="drawing" height="85" />
 
-\begin{equation}
-    64\pi = \sum_{n=0}^{\infty}\frac{-1^{n}}{1024^{n}} (-\frac{32}{4n + 1} - \frac{1}{4n + 3} + \frac{256}{10n + 1} - \frac{64}{10n + 3} - \frac{4}{10n + 5} - \frac{4}{10n + 7} + \frac{1}{10n + 9})
+$$64\pi = \sum_{n=0}^{\infty}\frac{-1^{n}}{1024^{n}} (-\frac{32}{4n + 1} - \frac{1}{4n + 3} + \frac{256}{10n + 1} - \frac{64}{10n + 3} - \frac{4}{10n + 5} - \frac{4}{10n + 7} + \frac{1}{10n + 9})
     \label{equation:Bellard}
-\end{equation}
+$$
 
 * Bellard. The expression is presented as follows:
 
