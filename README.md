@@ -13,16 +13,16 @@ Currently, PiDecimals allows you to compute Pi using three different algorithms:
 
 * Bailey-Borwein-Plouffe. The expression is presented below:
 
-$$\pi = \sum_{n=0}^{\infty}\frac{1}{16^{n}} (\frac{4}{8n + 1} - \frac{2}{8n + 4} - \frac{1}{8n + 5} - \frac{1}{8n + 6})$$
+$\pi = \sum_{n=0}^{\infty}\frac{1}{16^{n}} (\frac{4}{8n + 1} - \frac{2}{8n + 4} - \frac{1}{8n + 5} - \frac{1}{8n + 6})$
 
 * Bellard. The expression is presented as follows:
 
-$$ 64\pi = \sum_{n=0}^{\infty}\frac{-1^{n}}{1024^{n}} (-\frac{32}{4n + 1} - \frac{1}{4n + 3} + \frac{256}{10n + 1} - \frac{64}{10n + 3} - \frac{4}{10n + 5} - \frac{4}{10n + 7} + \frac{1}{10n + 9}) $$
+$ 64\pi = \sum_{n=0}^{\infty}\frac{-1^{n}}{1024^{n}} (-\frac{32}{4n + 1} - \frac{1}{4n + 3} + \frac{256}{10n + 1} - \frac{64}{10n + 3} - \frac{4}{10n + 5} - \frac{4}{10n + 7} + \frac{1}{10n + 9}) $
 
 * Chudnovsky. The expression is shown below:
 
-$$ \frac{426880\sqrt{10005}}{\pi} = 
-    \sum_{n=0}^{\infty}\frac{(6n)! (545140134n + 13591409)}{(n!)^{3}(3n)! (-640320)^{3n}} $$
+$ \frac{426880\sqrt{10005}}{\pi} = 
+    \sum_{n=0}^{\infty}\frac{(6n)! (545140134n + 13591409)}{(n!)^{3}(3n)! (-640320)^{3n}} $
 
 #### Multiple Precision Floating Point Libraries
 
