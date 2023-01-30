@@ -80,25 +80,18 @@ void gmp_calculate_pi(int algorithm, int precision, int num_threads, bool print_
     case 6:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
-        algorithm_tag = "GMP-CHD-SME-CHT";
-        gmp_chudnovsky_simplified_expression_cheater_algorithm(pi, num_iterations, num_threads);
-        break;
-
-    case 7:
-        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
-        check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-SNK";
         gmp_chudnovsky_simplified_expression_snake_like_algorithm(pi, num_iterations, num_threads);
         break;
 
-    case 8:
+    case 7:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-INT-BLC";
         gmp_chudnovsky_simplified_expression_integers_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
-    case 9:
+    case 8:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-CWE-SEQ";
