@@ -11,7 +11,6 @@
 #include "algorithms/bellard_recursive_power_cyclic.h"
 #include "algorithms/chudnovsky_all_factorials_blocks.h"
 #include "algorithms/chudnovsky_simplified_expression_blocks.h"
-#include "algorithms/chudnovsky_simplified_expression_cheater.h"
 #include "algorithms/chudnovsky_simplified_expression_snake_like.h"
 #include "algorithms/chudnovsky_simplified_expression_integers_blocks.h"
 #include "algorithms/chudnovsky_craig_wood_expression.h"
