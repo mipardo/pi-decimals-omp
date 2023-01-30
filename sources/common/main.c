@@ -38,10 +38,10 @@ int main(int argc, char **argv){
     int num_threads = (atoi(argv[4]) <= 0) ? 1 : atoi(argv[4]);
 
     if (strcmp(library, "GMP") == 0) {
-        calculate_pi_gmp(algorithm, precision, num_threads, print_in_csv_format);
+        gmp_calculate_pi(algorithm, precision, num_threads, print_in_csv_format);
     } 
     else if (strcmp(library, "MPFR") == 0) {
-        calculate_pi_mpfr(algorithm, precision, num_threads, print_in_csv_format);
+        mpfr_calculate_pi(algorithm, precision, num_threads, print_in_csv_format);
     } 
     else 
     {

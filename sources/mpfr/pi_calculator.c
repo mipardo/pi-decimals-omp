@@ -6,8 +6,8 @@
 #include "../common/printer.h"
 #include "check_decimals.h"
 #include "algorithms/bbp_blocks.h"
-#include "algorithms/bellard_cyclic.h"
-#include "algorithms/bellard_slow_cyclic.h"
+#include "algorithms/bellard_bit_shift_power_cyclic.h"
+#include "algorithms/bellard_recursive_power_cyclic.h"
 #include "algorithms/chudnovsky_simplified_expression_blocks.h"
 #include "algorithms/chudnovsky_craig_wood_expression.h"
 
@@ -15,7 +15,7 @@
 double gettimeofday();
 
 
-void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print_in_csv_format){
+void mpfr_calculate_pi(int algorithm, int precision, int num_threads, bool print_in_csv_format){
     double execution_time;
     struct timeval t1, t2;
     mpfr_t pi;
@@ -42,25 +42,25 @@ void calculate_pi_mpfr(int algorithm, int precision, int num_threads, bool print
     case 1:
         num_iterations = precision / 3;
         check_errors(precision, num_iterations, num_threads);
-        algorithm_tag = "MPFR-BEL-CYC";
-        mpfr_bellard_cyclic_algorithm(pi, num_iterations, num_threads);
-        break;
-
-    case 10:
-        num_iterations = precision / 3;
-        check_errors(precision, num_iterations, num_threads);
-        algorithm_tag = "MPFR-BEL-SLW-CYC";
-        mpfr_bellard_slow_cyclic_algorithm(pi, num_iterations, num_threads);
+        algorithm_tag = "MPFR-BEL-BSP-CYC";
+        mpfr_bellard_bit_shift_power_cyclic_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 2:
+        num_iterations = precision / 3;
+        check_errors(precision, num_iterations, num_threads);
+        algorithm_tag = "MPFR-BEL-RCP-CYC";
+        mpfr_bellard_recursive_power_cyclic_algorithm(pi, num_iterations, num_threads);
+        break;
+
+    case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-SME-BLC";
         mpfr_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads);
         break;
     
-    case 3:
+    case 4:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-CWE-SEQ";

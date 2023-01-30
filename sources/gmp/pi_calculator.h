@@ -1,6 +1,6 @@
-#ifndef PI_CALCULATOR_GMP
-#define PI_CALCULATOR_GMP
+#ifndef GMP_PI_CALCULATOR
+#define GMP_PI_CALCULATOR
 
-void calculate_pi_gmp(int, int, int, bool);
+void gmp_calculate_pi(int, int, int, bool);
 
 #endif

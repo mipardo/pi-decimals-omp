@@ -77,7 +77,7 @@ void mpfr_bellard_iteration(mpfr_t pi, int n, mpfr_t m, mpfr_t a, mpfr_t b, mpfr
 }
 
 
-void mpfr_bellard_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads){
+void mpfr_bellard_recursive_power_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads){
     mpfr_t jump; 
 
     mpfr_init_set_ui(jump, 1, MPFR_RNDN);

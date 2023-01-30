@@ -77,7 +77,7 @@ void gmp_bellard_iteration(mpf_t pi, int n, mpf_t m, mpf_t a, mpf_t b, mpf_t c, 
 }
 
 
-void gmp_bellard_slow_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads){
+void gmp_bellard_recursive_power_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t jump; 
 
     mpf_init_set_ui(jump, 1); 

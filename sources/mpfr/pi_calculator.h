@@ -1,7 +1,7 @@
-#ifndef PI_CALCULATOR_MPFR
-#define PI_CALCULATOR_MPFR
+#ifndef MPFR_PI_CALCULATOR
+#define MPFR_PI_CALCULATOR
 
-void calculate_pi_mpfr(int, int, int, bool);
+void mpfr_calculate_pi(int, int, int, bool);
 
 #endif
 

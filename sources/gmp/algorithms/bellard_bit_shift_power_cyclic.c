@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "bellard_slow_cyclic.h"
+#include "bellard_recursive_power_cyclic.h"
 
 
 /************************************************************************************
@@ -38,7 +38,7 @@
  ************************************************************************************/
 
 
-void gmp_bellard_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads){
+void gmp_bellard_bit_shift_power_cyclic_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t ONE;
     mpf_init_set_ui(ONE, 1);
 

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <mpfr.h>
 #include <omp.h>
-#include "bellard_cyclic.h"
+#include "bellard_recursive_power_cyclic.h"
 
 
 /************************************************************************************
@@ -39,7 +39,7 @@
  ************************************************************************************/
 
 
-void mpfr_bellard_slow_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads){
+void mpfr_bellard_bit_shift_power_cyclic_algorithm(mpfr_t pi, int num_iterations, int num_threads){
     mpfr_t ONE; 
     mpfr_init_set_ui(ONE, 1, MPFR_RNDN); 
 
