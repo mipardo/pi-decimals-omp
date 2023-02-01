@@ -38,6 +38,8 @@
  *                                                                                  *
  ************************************************************************************/
 
+double gettimeofday();
+
 /*
  * An iteration of Bellard formula
  */
@@ -104,15 +106,21 @@ void gmp_bellard_recursive_power_cyclic_algorithm(mpf_t pi, int num_iterations, 
         if(thread_id % 2 != 0) mpf_neg(dep_m, dep_m);                   
         mpf_inits(a, b, c, d, e, f, g, aux, NULL);
 
+        double execution_time;
+        struct timeval t1, t2;
         //First Phase -> Working on a local variable
         if(num_threads % 2 != 0){
             for(i = thread_id; i < num_iterations; i+=num_threads){
+                gettimeofday(&t1, NULL);
                 gmp_bellard_iteration(local_pi, i, dep_m, a, b, c, d, e, f, g, aux, dep_a, dep_b);
                 // Update dependencies for next iteration:
                 mpf_mul(dep_m, dep_m, jump); 
                 mpf_neg(dep_m, dep_m); 
                 dep_a += jump_dep_a;
                 dep_b += jump_dep_b;  
+                gettimeofday(&t2, NULL);
+                execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e3; 
+                printf("%f\n", execution_time);
             }
         } else {
             for(i = thread_id; i < num_iterations; i+=num_threads){

@@ -24,6 +24,7 @@
  * Chudnovsky formula dependencies:                                                 *
  ************************************************************************************/
 
+double gettimeofday();
 
 /*
  * An iteration of Chudnovsky formula using the binary splitting algorithm
@@ -78,8 +79,14 @@ void gmp_chudnovsky_craig_wood_expression_algorithm(mpf_t pi, int num_iterations
     mpf_set_ui(sum_a, 1);
     mpf_set_ui(sum_b, 0);
 
+    double execution_time;
+    struct timeval t1, t2;
     for(i = 1; i < num_iterations; i++){
+        gettimeofday(&t1, NULL);
         gmp_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
+        gettimeofday(&t2, NULL);
+        execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e3; 
+        printf("%f\n", execution_time);
     }
 
     mpf_mul_ui(sum_a, sum_a, A);

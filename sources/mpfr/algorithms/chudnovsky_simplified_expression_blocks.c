@@ -41,6 +41,8 @@
  *                                                                                  *
  ************************************************************************************/
 
+double gettimeofday();
+
 /*
  * An iteration of Chudnovsky formula
  */
@@ -113,8 +115,11 @@ void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_i
         mpfr_add_ui(dep_c, dep_c, A, MPFR_RNDN);
         factor_a = 12 * block_start;
 
+        double execution_time;
+        struct timeval t1, t2;
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
+            gettimeofday(&t1, NULL);
             mpfr_chudnovsky_iteration(local_pi, i, dep_a, dep_b, dep_c, aux);
             //Update dep_a:
             mpfr_set_ui(dep_a_dividend, factor_a + 10, MPFR_RNDN);
@@ -132,6 +137,9 @@ void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_i
 
             //Update dep_c:
             mpfr_add_ui(dep_c, dep_c, B, MPFR_RNDN);
+            gettimeofday(&t2, NULL);
+            execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e3; 
+            printf("%f\n", execution_time);
         }
 
         //Second Phase -> Accumulate the result in the global variable 

@@ -6,6 +6,8 @@
 
 #define QUOTIENT 0.0625
 
+double gettimeofday();
+
 /************************************************************************************
  * Miguel Pardo Navarro. 17/07/2021                                                 *
  * Last version of Bailey Borwein Plouffe formula implementation                    *
@@ -88,12 +90,17 @@ void mpfr_bbp_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads){
         mpfr_pow_ui(dep_m, quotient, block_start, MPFR_RNDN);    // m = (1/16)^n                  
         mpfr_inits(quot_a, quot_b, quot_c, quot_d, aux, NULL);
         
-
+        double execution_time;
+        struct timeval t1, t2;
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
+            gettimeofday(&t1, NULL);
             mpfr_bbp_iteration(local_pi, i, dep_m, quot_a, quot_b, quot_c, quot_d, aux);
             // Update dependencies:  
             mpfr_mul(dep_m, dep_m, quotient, MPFR_RNDN);
+            gettimeofday(&t2, NULL);
+            execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e3; 
+            printf("%f\n", execution_time);
         }
 
         //Second Phase -> Accumulate the result in the global variable

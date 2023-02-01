@@ -11,6 +11,9 @@
 #define D 426880
 #define E 10005
 
+
+double gettimeofday();
+
 /************************************************************************************
  * Miguel Pardo Navarro. 25/12/2022                                                 *
  * Chudnovsky formula implementation                                                *
@@ -79,8 +82,14 @@ void mpfr_chudnovsky_craig_wood_expression_algorithm(mpfr_t pi, int num_iteratio
     mpfr_set_ui(sum_b, 0, MPFR_RNDN);
     mpfr_set_ui(a_n, 1, MPFR_RNDN);
     
+    double execution_time;
+    struct timeval t1, t2;    
     for(i = 1; i < num_iterations; i++){
+        gettimeofday(&t1, NULL);
         mpfr_chudnovsky_craig_wood_expression_iteration(i, sum_a, sum_b, a_n, b_n, a_n_divisor, factor_a, factor_b, factor_c);
+        gettimeofday(&t2, NULL);
+        execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e3; 
+        printf("%f\n", execution_time);
     }
 
     mpfr_mul_ui(sum_a, sum_a, A, MPFR_RNDN);

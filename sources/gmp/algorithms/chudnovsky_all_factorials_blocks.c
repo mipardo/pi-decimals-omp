@@ -37,6 +37,8 @@
  *                                                                                  *
  ************************************************************************************/
 
+double gettimeofday();
+
 /*
  * This method calculates the factorials from 0 to num_factorials (included) 
  * and stores them in their corresponding vector position (factorials[n] = n!): 
@@ -120,8 +122,11 @@ void gmp_chudnovsky_all_factorials_blocks_algorithm(mpf_t pi, int num_iterations
         mpf_mul_ui(dep_e, dep_e, block_start);
         mpf_add_ui(dep_e, dep_e, A);
 
+        double execution_time;
+        struct timeval t1, t2;
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
+            gettimeofday(&t1, NULL);
             gmp_chudnovsky_all_factorials_iteration(local_pi, i, dep_a, dep_b, dep_c, dep_d, dep_e, dividend, divisor);
             //Update dependencies
             mpf_set(dep_a, factorials[6 * (i + 1)]);
@@ -129,6 +134,9 @@ void gmp_chudnovsky_all_factorials_blocks_algorithm(mpf_t pi, int num_iterations
             mpf_set(dep_c, factorials[3 * (i + 1)]);
             mpf_mul(dep_d, dep_d, c);
             mpf_add_ui(dep_e, dep_e, B);
+            gettimeofday(&t2, NULL);
+            execution_time = ((t2.tv_sec - t1.tv_sec) * 1000000u +  t2.tv_usec - t1.tv_usec)/1.e3; 
+            printf("%f\n", execution_time);
         }
 
         //Second Phase -> Accumulate the result in the global variable 
