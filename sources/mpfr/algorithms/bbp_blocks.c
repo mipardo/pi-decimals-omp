@@ -64,7 +64,7 @@ void mpfr_bbp_iteration(mpfr_t pi, int n, mpfr_t dep_m, mpfr_t quot_a, mpfr_t qu
 }
 
 
-void mpfr_bbp_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads){
+void mpfr_bbp_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads, int precision_bits){
     mpfr_t quotient; 
 
     mpfr_init_set_d(quotient, QUOTIENT, MPFR_RNDN);         // quotient = (1 / 16)   
@@ -83,11 +83,9 @@ void mpfr_bbp_blocks_algorithm(mpfr_t pi, int num_iterations, int num_threads){
         block_end = block_start + block_size;
         if (block_end > num_iterations) block_end = num_iterations;
         
-        mpfr_init_set_ui(local_pi, 0, MPFR_RNDN);
-        mpfr_init(dep_m);
+        mpfr_inits2(precision_bits, local_pi, dep_m, quot_a, quot_b, quot_c, quot_d, aux, NULL);
+        mpfr_set_ui(local_pi, 0, MPFR_RNDN);
         mpfr_pow_ui(dep_m, quotient, block_start, MPFR_RNDN);    // m = (1/16)^n                  
-        mpfr_inits(quot_a, quot_b, quot_c, quot_d, aux, NULL);
-        
 
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){

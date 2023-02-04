@@ -36,35 +36,35 @@ void mpfr_calculate_pi(int algorithm, int precision, int num_threads, bool print
         num_iterations = precision * 0.84;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-BBP-BLC";
-        mpfr_bbp_blocks_algorithm(pi, num_iterations, num_threads);
+        mpfr_bbp_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 1:
         num_iterations = precision / 3;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-BEL-BSP-CYC";
-        mpfr_bellard_bit_shift_power_cyclic_algorithm(pi, num_iterations, num_threads);
+        mpfr_bellard_bit_shift_power_cyclic_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 2:
         num_iterations = precision / 3;
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-BEL-RCP-CYC";
-        mpfr_bellard_recursive_power_cyclic_algorithm(pi, num_iterations, num_threads);
+        mpfr_bellard_recursive_power_cyclic_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
 
     case 3:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-SME-BLC";
-        mpfr_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads);
+        mpfr_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
     
     case 4:
         num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "MPFR-CHD-CWE-SEQ";
-        mpfr_chudnovsky_craig_wood_expression_algorithm(pi, num_iterations, num_threads);
+        mpfr_chudnovsky_craig_wood_expression_algorithm(pi, num_iterations, num_threads, precision_bits);
         break;
     
     default:
