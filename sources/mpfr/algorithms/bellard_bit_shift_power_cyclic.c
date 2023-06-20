@@ -59,7 +59,7 @@ void mpfr_bellard_bit_shift_power_cyclic_algorithm(mpfr_t pi, int num_iterations
         jump_dep_a = 4 * num_threads;
         jump_dep_b = 10 * num_threads;
         mpfr_mul_2exp(dep_m, ONE, 10 * thread_id, MPFR_RNDN);
-        mpfr_div(dep_m, ONE, dep_m, MPFR_RNDN);
+        mpfr_pow_si(dep_m, dep_m, -1, MPFR_RNDN);
         if(thread_id % 2 != 0) mpfr_neg(dep_m, dep_m, MPFR_RNDN);                   
 
         //First Phase -> Working on a local variable
@@ -68,7 +68,7 @@ void mpfr_bellard_bit_shift_power_cyclic_algorithm(mpfr_t pi, int num_iterations
             // Update dependencies for next iteration:
             next_i = i + num_threads;
             mpfr_mul_2exp(dep_m, ONE, 10 * next_i, MPFR_RNDN);
-            mpfr_div(dep_m, ONE, dep_m, MPFR_RNDN);
+            mpfr_pow_si(dep_m, dep_m, -1, MPFR_RNDN); // mpfr_div(dep_m, ONE, dep_m, MPFR_RNDN);
             if (next_i % 2 != 0) mpfr_neg(dep_m, dep_m, MPFR_RNDN); 
             dep_a += jump_dep_a;
             dep_b += jump_dep_b;  
