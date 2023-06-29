@@ -54,7 +54,7 @@ void mpfr_chudnovsky_iteration(mpfr_t pi, int n, mpfr_t dep_a, mpfr_t dep_b,
 
 
 /*
- * This method is used by ParallelChudnovskyAlgorithm threads
+ * This method is used by chudnovsky threads
  * for computing the first value of dep_a
  */
 void mpfr_init_dep_a(mpfr_t dep_a, int block_start, int precision_bits){
@@ -98,7 +98,6 @@ void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_i
         mpfr_t local_pi, dep_a, dep_a_dividend, dep_a_divisor, dep_b, dep_c, aux;
 
         thread_id = omp_get_thread_num();
-        
         block_size = (num_iterations + num_threads - 1) / num_threads;
         block_start = thread_id * block_size;
         block_end = block_start + block_size;
@@ -116,6 +115,7 @@ void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_i
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
             mpfr_chudnovsky_iteration(local_pi, i, dep_a, dep_b, dep_c, aux);
+            
             //Update dep_a:
             mpfr_set_ui(dep_a_dividend, factor_a + 10, MPFR_RNDN);
             mpfr_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 6, MPFR_RNDN);

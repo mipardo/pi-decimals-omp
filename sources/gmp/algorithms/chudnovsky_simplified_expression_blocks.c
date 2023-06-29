@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <gmp.h>
 #include <omp.h>
-#include "chudnovsky_all_factorials_blocks.h"
 
 #define A 13591409
 #define B 545140134
@@ -52,7 +51,7 @@ void gmp_chudnovsky_iteration(mpf_t pi, int n, mpf_t dep_a, mpf_t dep_b, mpf_t d
 }
 
 /*
- * This method is used by ParallelChudnovskyAlgorithm threads
+ * This method is used by chudnovsky threads
  * for computing the first value of dep_a
  */
 void gmp_init_dep_a(mpf_t dep_a, int block_start){
@@ -79,9 +78,7 @@ void gmp_init_dep_a(mpf_t dep_a, int block_start){
 
 void gmp_chudnovsky_simplified_expression_blocks_algorithm(mpf_t pi, int num_iterations, int num_threads){
     mpf_t e, c;
-    int block_size;
     
-    block_size = (num_iterations + num_threads - 1) / num_threads;
     mpf_init_set_ui(e, E);
     mpf_init_set_ui(c, C);
     mpf_neg(c, c);
@@ -92,19 +89,20 @@ void gmp_chudnovsky_simplified_expression_blocks_algorithm(mpf_t pi, int num_ite
 
     #pragma omp parallel 
     {   
-        int thread_id, i, block_start, block_end, factor_a;
+        int thread_id, i, block_size, block_start, block_end, factor_a;
         mpf_t local_pi, dep_a, dep_a_dividend, dep_a_divisor, dep_b, dep_c, aux;
 
         thread_id = omp_get_thread_num();
+        block_size = (num_iterations + num_threads - 1) / num_threads;
         block_start = thread_id * block_size;
         block_end = block_start + block_size;
         if (block_end > num_iterations) block_end = num_iterations;
         
-        mpf_init_set_ui(local_pi, 0);    // private thread pi
-        mpf_inits(dep_a, dep_b, dep_a_dividend, dep_a_divisor, aux, NULL);
+        mpf_inits(local_pi, dep_a, dep_b, dep_c, dep_a_dividend, dep_a_divisor, aux, NULL);
+        mpf_set_ui(local_pi, 0);    // private thread pi
         gmp_init_dep_a(dep_a, block_start);
         mpf_pow_ui(dep_b, c, block_start);
-        mpf_init_set_ui(dep_c, B);
+        mpf_set_ui(dep_c, B);
         mpf_mul_ui(dep_c, dep_c, block_start);
         mpf_add_ui(dep_c, dep_c, A);
         factor_a = 12 * block_start;
@@ -112,6 +110,7 @@ void gmp_chudnovsky_simplified_expression_blocks_algorithm(mpf_t pi, int num_ite
         //First Phase -> Working on a local variable        
         for(i = block_start; i < block_end; i++){
             gmp_chudnovsky_iteration(local_pi, i, dep_a, dep_b, dep_c, aux);
+            
             //Update dep_a:
             mpf_set_ui(dep_a_dividend, factor_a + 10);
             mpf_mul_ui(dep_a_dividend, dep_a_dividend, factor_a + 6);
@@ -119,7 +118,7 @@ void gmp_chudnovsky_simplified_expression_blocks_algorithm(mpf_t pi, int num_ite
             mpf_mul(dep_a_dividend, dep_a_dividend, dep_a);
 
             mpf_set_ui(dep_a_divisor, i + 1);
-            mpf_pow_ui(dep_a_divisor, dep_a_divisor ,3);
+            mpf_pow_ui(dep_a_divisor, dep_a_divisor, 3);
             mpf_div(dep_a, dep_a_dividend, dep_a_divisor);
             factor_a += 12;
 
