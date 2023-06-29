@@ -16,17 +16,16 @@ double gettimeofday();
 
 
 void mpfr_calculate_pi(int algorithm, int precision, int num_threads, bool print_in_csv_format){
+    int num_iterations, decimals_computed, precision_bits;
     double execution_time;
     struct timeval t1, t2;
-    mpfr_t pi;
-    int num_iterations, decimals_computed, precision_bits;
     char *algorithm_tag;
+    mpfr_t pi;
 
-    precision_bits = 8 * precision;
-    
     gettimeofday(&t1, NULL);
 
     //Set mpfr float precision (in bits) and init pi
+    precision_bits = precision * 8;
     mpfr_set_default_prec(precision_bits); 
     mpfr_init_set_ui(pi, 0, MPFR_RNDN);
     

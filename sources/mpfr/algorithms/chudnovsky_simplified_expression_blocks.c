@@ -94,7 +94,7 @@ void mpfr_chudnovsky_simplified_expression_blocks_algorithm(mpfr_t pi, int num_i
 
     #pragma omp parallel 
     {   
-        int thread_id, i, block_size, block_start, block_end, factor_a, * distribution;
+        int thread_id, i, block_size, block_start, block_end, factor_a;
         mpfr_t local_pi, dep_a, dep_a_dividend, dep_a_divisor, dep_b, dep_c, aux;
 
         thread_id = omp_get_thread_num();

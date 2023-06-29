@@ -20,16 +20,17 @@ double gettimeofday();
 
 
 void gmp_calculate_pi(int algorithm, int precision, int num_threads, bool print_in_csv_format){
+    int num_iterations, decimals_computed, precision_bits;
     double execution_time;
     struct timeval t1, t2;
-    mpf_t pi;
-    int num_iterations, decimals_computed;
     char *algorithm_tag;
+    mpf_t pi;
 
     gettimeofday(&t1, NULL);
 
     //Set gmp float precision (in bits) and init pi
-    mpf_set_default_prec(precision * 8); 
+    precision_bits = precision * 8;
+    mpf_set_default_prec(precision_bits); 
     mpf_init_set_ui(pi, 0); 
     
     switch (algorithm)
