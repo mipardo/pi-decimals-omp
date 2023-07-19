@@ -64,35 +64,35 @@ void gmp_calculate_pi(int algorithm, int precision, int num_threads, bool print_
         break;
 
     case 4:
-        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
+        num_iterations = (precision + 14 - 1) / 14;  
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-CAF-BLC";
         gmp_chudnovsky_all_factorials_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 5:
-        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
+        num_iterations = (precision + 14 - 1) / 14;  
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-BLC";
         gmp_chudnovsky_simplified_expression_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 6:
-        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
+        num_iterations = (precision + 14 - 1) / 14;  
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-SNK";
         gmp_chudnovsky_simplified_expression_snake_like_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 7:
-        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
+        num_iterations = (precision + 14 - 1) / 14;  
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-SME-INT-BLC";
         gmp_chudnovsky_simplified_expression_integers_blocks_algorithm(pi, num_iterations, num_threads);
         break;
 
     case 8:
-        num_iterations = (precision + 14 - 1) / 14;  //Division por exceso
+        num_iterations = (precision + 14 - 1) / 14;  
         check_errors(precision, num_iterations, num_threads);
         algorithm_tag = "GMP-CHD-CWE-SEQ";
         gmp_chudnovsky_craig_wood_expression_algorithm(pi, num_iterations, num_threads);
